@@ -7,6 +7,7 @@ export default defineType({
   fields: [
     defineField({ name: 'heading', title: 'Heading', type: 'string' }),
     defineField({ name: 'body', title: 'Body', type: 'text' }),
+    defineField({ name: 'listTitle', title: 'List Title (above bullets)', type: 'string' }),
     defineField({
       name: 'bullets',
       title: 'Bullets',
@@ -18,5 +19,6 @@ export default defineType({
         },
       ],
     }),
+    defineField({ name: 'summary', title: 'Summary (below bullets)', type: 'text' }),
   ],
 });

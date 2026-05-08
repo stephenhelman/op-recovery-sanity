@@ -5,16 +5,17 @@ export default function StatesServedSection({ data }: { data: StatesServed }) {
   const states = data.states?.length ? data.states : ALL_STATES;
   return (
     <section
-      className="py-20 px-6"
-      style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}
+      className="py-16 md:py-24 px-6"
+      style={{ color: 'var(--color-text)' }}
     >
       <div className="max-w-5xl mx-auto">
         <h2
-          className="text-3xl sm:text-4xl font-bold text-center mb-10"
+          className="text-3xl sm:text-4xl font-bold text-center"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
         >
           {data.heading}
         </h2>
+        <div className="mt-3 mb-10 w-12 h-[3px] mx-auto" style={{ backgroundColor: 'var(--color-accent)' }} />
         <div className="flex flex-wrap gap-2 justify-center">
           {states.map((state, i) => (
             <span

@@ -14,10 +14,13 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     headline,
     subheadline,
     ctaText,
+    ctaNote,
     // problemSection / serviceBlock / aboutSection / whyChooseUs
     heading,
     body,
+    listTitle,
     bullets,
+    summary,
     // impactNumbers
     stats,
     // howItWorks
@@ -30,6 +33,7 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     subheading,
     submitText,
     successMessage,
+    footerNote,
     fields[]{
       _type,
       label,

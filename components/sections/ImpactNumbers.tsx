@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ImpactNumbers } from '@/types/content';
 
@@ -18,13 +18,13 @@ function StatTile({ value, label }: { value: string; label: string }) {
     >
       <span
         className="text-4xl sm:text-5xl font-bold mb-2"
-        style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+        style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-accent)' }}
       >
         {value}
       </span>
       <span
-        className="text-sm sm:text-base opacity-70"
-        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)' }}
+        className="text-sm sm:text-base"
+        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-bg)', opacity: 0.85 }}
       >
         {label}
       </span>
@@ -36,11 +36,9 @@ export default function ImpactNumbersSection({ data }: { data: ImpactNumbers }) 
   return (
     <section
       className="py-16 px-6"
-      style={{ backgroundColor: 'var(--color-bg)' }}
+      style={{ backgroundColor: 'var(--color-primary)' }}
     >
-      <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-b"
-        style={{ borderColor: 'var(--color-primary)', opacity: 1 }}
-      >
+      <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
         {data.stats.map((stat, i) => (
           <StatTile key={i} value={stat.value} label={stat.label} />
         ))}

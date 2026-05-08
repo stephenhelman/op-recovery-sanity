@@ -8,5 +8,6 @@ export default defineType({
     defineField({ name: 'headline', title: 'Headline', type: 'string' }),
     defineField({ name: 'subheadline', title: 'Subheadline', type: 'text' }),
     defineField({ name: 'ctaText', title: 'CTA Button Text', type: 'string' }),
+    defineField({ name: 'ctaNote', title: 'CTA Note (below button)', type: 'string' }),
   ],
 });

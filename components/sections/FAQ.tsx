@@ -9,8 +9,14 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
   return (
     <div
-      className="border-b"
-      style={{ borderColor: 'var(--color-primary)', opacity: 0.9 }}
+      className="border-b transition-[border-left-color] duration-200"
+      style={{
+        borderBottomColor: 'var(--color-primary)',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderLeft: open ? '3px solid var(--color-accent)' : '3px solid transparent',
+        paddingLeft: '1rem',
+      }}
     >
       <button
         className="w-full flex items-center justify-between py-5 text-left gap-4"
@@ -29,7 +35,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
           className="w-5 h-5 flex-shrink-0"
           viewBox="0 0 20 20"
           fill="none"
-          style={{ color: 'var(--color-primary)' }}
+          style={{ color: 'var(--color-accent)' }}
         >
           <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </motion.svg>
@@ -58,18 +64,16 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 export default function FAQ({ data }: { data: FaqSection }) {
   return (
-    <section
-      className="py-20 px-6"
-      style={{ backgroundColor: 'var(--color-bg)' }}
-    >
+    <section className="py-16 md:py-24 px-6">
       <div className="max-w-3xl mx-auto">
         <h2
-          className="text-3xl sm:text-4xl font-bold text-center mb-10"
+          className="text-3xl sm:text-4xl font-bold text-center"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
         >
           Frequently Asked Questions
         </h2>
-        <div className="border-t" style={{ borderColor: 'var(--color-primary)' }}>
+        <div className="mt-3 mb-10 w-12 h-[3px] mx-auto" style={{ backgroundColor: 'var(--color-accent)' }} />
+        <div className="border-t" style={{ borderColor: 'var(--color-primary)', opacity: 0.3 }}>
           {data.items.map((item, i) => (
             <FAQItem key={i} question={item.question} answer={item.answer} />
           ))}

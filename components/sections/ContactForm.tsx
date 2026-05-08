@@ -16,7 +16,7 @@ function renderField(field: FormField, value: string, onChange: (v: string) => v
   const labelEl = (
     <label className="block text-sm font-medium mb-1" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)' }}>
       {field.label}
-      {field.required && <span style={{ color: 'var(--color-primary)' }}> *</span>}
+      {field.required && <span style={{ color: 'var(--color-accent)' }}> *</span>}
     </label>
   );
 
@@ -111,7 +111,7 @@ export default function ContactFormSection({ data }: { data: ContactForm }) {
 
   if (status === 'success') {
     return (
-      <section id="contact" className="py-20 px-6" style={{ backgroundColor: 'var(--color-bg)' }}>
+      <section id="contact" className="py-16 md:py-24 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <p
             className="text-xl font-semibold"
@@ -125,14 +125,15 @@ export default function ContactFormSection({ data }: { data: ContactForm }) {
   }
 
   return (
-    <section id="contact" className="py-20 px-6" style={{ backgroundColor: 'var(--color-bg)' }}>
+    <section id="contact" className="py-16 md:py-24 px-6">
       <div className="max-w-2xl mx-auto">
         <h2
-          className="text-3xl sm:text-4xl font-bold mb-3 text-center"
+          className="text-3xl sm:text-4xl font-bold text-center"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
         >
           {data.heading}
         </h2>
+        <div className="mt-3 mb-8 w-12 h-[3px] mx-auto" style={{ backgroundColor: 'var(--color-accent)' }} />
         {data.subheading && (
           <p
             className="text-center mb-8 opacity-75"
@@ -156,20 +157,28 @@ export default function ContactFormSection({ data }: { data: ContactForm }) {
             renderField(field, values[field.label] || '', (v) => setValue(field.label, v))
           )}
           {status === 'error' && (
-            <p className="text-sm" style={{ color: 'var(--color-primary)' }}>{errorMsg}</p>
+            <p className="text-sm" style={{ color: 'var(--color-accent)' }}>{errorMsg}</p>
           )}
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="w-full py-4 font-semibold rounded-md transition-opacity hover:opacity-90 disabled:opacity-60"
+            className="w-full py-4 font-bold rounded-md transition-opacity hover:opacity-90 disabled:opacity-60"
             style={{
-              backgroundColor: 'var(--color-primary)',
-              color: 'var(--color-bg)',
+              backgroundColor: 'var(--color-accent)',
+              color: 'var(--color-primary)',
               fontFamily: 'var(--font-body)',
             }}
           >
             {status === 'submitting' ? 'Submitting…' : data.submitText}
           </button>
+          {data.footerNote && (
+            <p
+              className="mt-3 text-sm italic text-center"
+              style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)', opacity: 0.6 }}
+            >
+              {data.footerNote}
+            </p>
+          )}
         </form>
       </div>
     </section>

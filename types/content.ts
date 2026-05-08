@@ -21,13 +21,16 @@ export interface HeroSection {
   headline: string;
   subheadline: string;
   ctaText: string;
+  ctaNote?: string;
 }
 
 export interface ProblemSection {
   _type: 'problemSection';
   heading: string;
   body: string;
+  listTitle?: string;
   bullets: { point: string }[];
+  summary?: string;
 }
 
 export interface ImpactNumbers {
@@ -39,7 +42,9 @@ export interface ServiceBlock {
   _type: 'serviceBlock';
   heading: string;
   body: string;
+  listTitle?: string;
   bullets: { point: string }[];
+  summary?: string;
 }
 
 export interface HowItWorks {
@@ -51,7 +56,9 @@ export interface HowItWorks {
 export interface WhyChooseUs {
   _type: 'whyChooseUs';
   heading: string;
+  listTitle?: string;
   bullets: { point: string }[];
+  summary?: { paragraph: string }[];
 }
 
 export interface StatesServed {
@@ -85,6 +92,7 @@ export interface ContactForm {
   subheading: string;
   submitText: string;
   successMessage: string;
+  footerNote?: string;
   fields: FormField[];
 }
 

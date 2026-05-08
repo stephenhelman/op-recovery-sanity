@@ -62,6 +62,7 @@ const contactForm = defineType({
     defineField({ name: 'subheading', title: 'Subheading', type: 'string' }),
     defineField({ name: 'submitText', title: 'Submit Button Text', type: 'string' }),
     defineField({ name: 'successMessage', title: 'Success Message', type: 'string' }),
+    defineField({ name: 'footerNote', title: 'Footer Note (below submit button)', type: 'string' }),
     defineField({
       name: 'fields',
       title: 'Form Fields',
