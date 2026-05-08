@@ -1,19 +1,15 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ImpactNumbers } from '@/types/content';
 
-function StatTile({ value, label }: { value: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true });
-
+function StatTile({ value, label, index }: { value: string; label: string; index: number }) {
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
       className="flex flex-col items-center text-center p-6"
     >
       <span
@@ -40,7 +36,7 @@ export default function ImpactNumbersSection({ data }: { data: ImpactNumbers }) 
     >
       <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
         {data.stats.map((stat, i) => (
-          <StatTile key={i} value={stat.value} label={stat.label} />
+          <StatTile key={i} index={i} value={stat.value} label={stat.label} />
         ))}
       </div>
     </section>

@@ -26,14 +26,12 @@ export default function Hero({ data, logo, companyName }: HeroProps) {
         className="max-w-3xl mx-auto flex flex-col items-center"
       >
         {logo ? (
-          <div className="mb-8" style={{ backgroundColor: 'transparent' }}>
-            <img
-              src={logo}
-              alt={companyName ?? ''}
-              className="w-auto object-contain"
-              style={{ maxHeight: '80px', mixBlendMode: 'multiply' }}
-            />
-          </div>
+          <img
+            src={logo}
+            alt={companyName ?? ''}
+            className="w-auto object-contain mb-8"
+            style={{ maxHeight: '80px' }}
+          />
         ) : companyName ? (
           <span
             className="text-2xl font-bold mb-8"
