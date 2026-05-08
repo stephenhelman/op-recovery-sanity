@@ -1,6 +1,8 @@
 import { StatesServed } from '@/types/content';
+import { ALL_STATES } from '@/lib/statesData';
 
 export default function StatesServedSection({ data }: { data: StatesServed }) {
+  const states = data.states?.length ? data.states : ALL_STATES;
   return (
     <section
       className="py-20 px-6"
@@ -14,7 +16,7 @@ export default function StatesServedSection({ data }: { data: StatesServed }) {
           {data.heading}
         </h2>
         <div className="flex flex-wrap gap-2 justify-center">
-          {data.states.map((state, i) => (
+          {states.map((state, i) => (
             <span
               key={i}
               className="px-3 py-1 rounded-full text-sm font-medium"

@@ -1,12 +1,14 @@
 import { defineConfig } from "sanity";
+import { structureTool } from "sanity/structure";
+import { schemaTypes } from "./sanity/schema";
 
 export default defineConfig({
   name: "op-recovery-sanity",
   title: "OP Recovery",
-  projectId: "81io1nct",
+  projectId: "c9el6lwu",
   dataset: "production",
-  plugins: [],
+  plugins: [structureTool()],
   schema: {
-    types: [],
+    types: schemaTypes,
   },
 });

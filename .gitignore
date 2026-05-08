@@ -38,3 +38,6 @@ sanity.env
 
 # claude code
 .claude
+
+dist/
+.sanity/
