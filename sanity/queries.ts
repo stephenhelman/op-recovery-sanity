@@ -5,6 +5,8 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
   companyName,
   tagline,
   "logo": logo.asset->url,
+  logoHeight,
+  logoWidth,
   contactEmail,
   colors,
   fontPairing,

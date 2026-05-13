@@ -24,6 +24,8 @@ function mergeSiteConfig(
     companyName: sanityCfg.companyName || defaultCfg.companyName,
     tagline: sanityCfg.tagline || defaultCfg.tagline,
     logo: sanityCfg.logo !== undefined ? sanityCfg.logo : defaultCfg.logo,
+    logoHeight: sanityCfg.logoHeight ?? defaultCfg.logoHeight,
+    logoWidth: sanityCfg.logoWidth ?? defaultCfg.logoWidth,
     contactEmail: sanityCfg.contactEmail || defaultCfg.contactEmail,
     colors: mergeColors(sanityCfg.colors, defaultCfg.colors),
     fontPairing: sanityCfg.fontPairing || defaultCfg.fontPairing,

@@ -74,6 +74,8 @@ export default async function Home() {
               data={section as HeroSection}
               logo={content.siteConfig.logo}
               companyName={content.siteConfig.companyName}
+              logoHeight={content.siteConfig.logoHeight}
+              logoWidth={content.siteConfig.logoWidth}
             />
           );
         }

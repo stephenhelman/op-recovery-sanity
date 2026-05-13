@@ -7,16 +7,31 @@ interface HeroProps {
   data: HeroSection;
   logo?: string | null;
   companyName?: string;
+  logoHeight?: number;
+  logoWidth?: number;
 }
 
-function LogoOrName({ logo, companyName }: { logo?: string | null; companyName?: string }) {
+function LogoOrName({
+  logo,
+  companyName,
+  logoHeight,
+  logoWidth,
+}: {
+  logo?: string | null;
+  companyName?: string;
+  logoHeight?: number;
+  logoWidth?: number;
+}) {
   if (logo) {
     return (
       <img
         src={logo}
         alt={companyName ?? ''}
         className="w-auto object-contain mb-8"
-        style={{ maxHeight: '80px' }}
+        style={{
+          maxHeight: logoHeight ? `${logoHeight}px` : '80px',
+          maxWidth: logoWidth ? `${logoWidth}px` : undefined,
+        }}
       />
     );
   }
@@ -33,7 +48,7 @@ function LogoOrName({ logo, companyName }: { logo?: string | null; companyName?:
   return null;
 }
 
-function HeroCentered({ data, logo, companyName }: HeroProps) {
+function HeroCentered({ data, logo, companyName, logoHeight, logoWidth }: HeroProps) {
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -49,7 +64,7 @@ function HeroCentered({ data, logo, companyName }: HeroProps) {
         transition={{ duration: 0.7, ease: 'easeOut' }}
         className="max-w-3xl mx-auto flex flex-col items-center"
       >
-        <LogoOrName logo={logo} companyName={companyName} />
+        <LogoOrName logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} />
         <h1
           className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-bg)' }}
@@ -62,17 +77,19 @@ function HeroCentered({ data, logo, companyName }: HeroProps) {
         >
           {data.subheadline}
         </p>
-        <button
-          onClick={scrollToContact}
-          className="px-8 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
-          style={{
-            backgroundColor: 'var(--color-accent)',
-            color: 'var(--color-primary)',
-            fontFamily: 'var(--font-body)',
-          }}
-        >
-          {data.ctaText}
-        </button>
+        {data.ctaText && (
+          <button
+            onClick={scrollToContact}
+            className="px-8 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
+            style={{
+              backgroundColor: 'var(--color-accent)',
+              color: 'var(--color-primary)',
+              fontFamily: 'var(--font-body)',
+            }}
+          >
+            {data.ctaText}
+          </button>
+        )}
         {data.ctaNote && (
           <p
             className="mt-3 text-sm italic"
@@ -90,7 +107,7 @@ function HeroCentered({ data, logo, companyName }: HeroProps) {
   );
 }
 
-function HeroSplit({ data, logo, companyName }: HeroProps) {
+function HeroSplit({ data, logo, companyName, logoHeight, logoWidth }: HeroProps) {
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -107,7 +124,7 @@ function HeroSplit({ data, logo, companyName }: HeroProps) {
         transition={{ duration: 0.7, ease: 'easeOut' }}
         className="flex-1 flex flex-col justify-center px-8 py-24 md:px-16"
       >
-        <LogoOrName logo={logo} companyName={companyName} />
+        <LogoOrName logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} />
         <h1
           className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-bg)' }}
@@ -120,19 +137,21 @@ function HeroSplit({ data, logo, companyName }: HeroProps) {
         >
           {data.subheadline}
         </p>
-        <div>
-          <button
-            onClick={scrollToContact}
-            className="px-8 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
-            style={{
-              backgroundColor: 'var(--color-accent)',
-              color: 'var(--color-primary)',
-              fontFamily: 'var(--font-body)',
-            }}
-          >
-            {data.ctaText}
-          </button>
-        </div>
+        {data.ctaText && (
+          <div>
+            <button
+              onClick={scrollToContact}
+              className="px-8 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
+              style={{
+                backgroundColor: 'var(--color-accent)',
+                color: 'var(--color-primary)',
+                fontFamily: 'var(--font-body)',
+              }}
+            >
+              {data.ctaText}
+            </button>
+          </div>
+        )}
         {data.ctaNote && (
           <p
             className="mt-3 text-sm italic"
@@ -162,9 +181,9 @@ function HeroSplit({ data, logo, companyName }: HeroProps) {
   );
 }
 
-export default function Hero({ data, logo, companyName }: HeroProps) {
+export default function Hero({ data, logo, companyName, logoHeight, logoWidth }: HeroProps) {
   if (data.variant === 'hero-split') {
-    return <HeroSplit data={data} logo={logo} companyName={companyName} />;
+    return <HeroSplit data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} />;
   }
-  return <HeroCentered data={data} logo={logo} companyName={companyName} />;
+  return <HeroCentered data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} />;
 }

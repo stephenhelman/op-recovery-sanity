@@ -11,6 +11,8 @@ export interface SiteConfig {
   companyName: string;
   tagline: string;
   logo: string | null;
+  logoHeight?: number;
+  logoWidth?: number;
   contactEmail: string;
   colors: TemplateColors;
   fontPairing: FontPairing;
