@@ -12,11 +12,16 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
   fontPairing,
   "sections": sections[]{
     _type,
+    _key,
+    variant,
     // heroSection
     headline,
+    headlineAccent,
     subheadline,
     ctaText,
     ctaNote,
+    ctaPhone,
+    ctaType,
     // problemSection / serviceBlock / aboutSection / whyChooseUs
     heading,
     body,
@@ -25,8 +30,9 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     summary,
     // impactNumbers
     stats,
-    // howItWorks
+    // howItWorks / stepsSection
     steps,
+    stepNumber,
     // statesServed
     states,
     // faqSection

@@ -1,3 +1,5 @@
+'use client';
+
 import { StepsSection } from '@/types/content';
 
 export default function StepsNumbered({ data }: { data: StepsSection }) {
