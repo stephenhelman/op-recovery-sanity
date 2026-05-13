@@ -145,7 +145,7 @@ export default function StepsTimeline({ data }: { data: StepsSection }) {
                 fontFamily: "var(--font-body)",
               }}
             >
-              {data.ctaPhone}
+              {data.ctaText || "Call me"}
             </a>
           </div>
         )}
