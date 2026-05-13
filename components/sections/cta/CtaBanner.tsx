@@ -29,19 +29,17 @@ export default function CtaBanner({ data }: { data: CtaSection }) {
             {data.subheadline}
           </p>
         )}
-        {data.ctaText && (
-          <button
-            onClick={scrollToContact}
-            className="mt-4 px-10 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
-            style={{
-              backgroundColor: 'var(--color-accent)',
-              color: 'var(--color-primary)',
-              fontFamily: 'var(--font-body)',
-            }}
-          >
-            {data.ctaText}
-          </button>
-        )}
+        <button
+          onClick={scrollToContact}
+          className="mt-4 px-10 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
+          style={{
+            backgroundColor: 'var(--color-accent)',
+            color: 'var(--color-primary)',
+            fontFamily: 'var(--font-body)',
+          }}
+        >
+          {data.ctaText || 'Get Started'}
+        </button>
       </div>
     </section>
   );

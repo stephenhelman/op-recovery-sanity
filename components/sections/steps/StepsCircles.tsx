@@ -15,7 +15,9 @@ export default function StepsCircles({ data }: { data: StepsSection }) {
             className="text-3xl sm:text-4xl font-bold text-center mb-3"
             style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
           >
-            {data.headline}{' '}
+            {data.headline && (
+              <span>{data.headline}{' '}</span>
+            )}
             {data.headlineAccent && (
               <span style={{ color: 'var(--color-accent)' }}>{data.headlineAccent}</span>
             )}
@@ -72,7 +74,7 @@ export default function StepsCircles({ data }: { data: StepsSection }) {
             </a>
           </div>
         )}
-        {data.ctaType === 'button' && data.ctaText && (
+        {data.ctaType === 'button' && (
           <div className="mt-10 text-center">
             <button
               onClick={scrollToContact}
@@ -83,7 +85,7 @@ export default function StepsCircles({ data }: { data: StepsSection }) {
                 fontFamily: 'var(--font-body)',
               }}
             >
-              {data.ctaText}
+              {data.ctaText || 'Get Started'}
             </button>
           </div>
         )}

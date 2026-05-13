@@ -21,19 +21,17 @@ export default function CtaButton({ data }: { data: CtaSection }) {
             {data.headline}
           </h2>
         )}
-        {data.ctaText && (
-          <button
-            onClick={scrollToContact}
-            className="px-10 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
-            style={{
-              backgroundColor: 'var(--color-primary)',
-              color: 'var(--color-bg)',
-              fontFamily: 'var(--font-body)',
-            }}
-          >
-            {data.ctaText}
-          </button>
-        )}
+        <button
+          onClick={scrollToContact}
+          className="px-10 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
+          style={{
+            backgroundColor: 'var(--color-primary)',
+            color: 'var(--color-bg)',
+            fontFamily: 'var(--font-body)',
+          }}
+        >
+          {data.ctaText || 'Get Started'}
+        </button>
       </div>
     </section>
   );
