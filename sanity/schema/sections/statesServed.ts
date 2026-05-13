@@ -6,6 +6,7 @@ export default defineType({
   title: 'States Served',
   type: 'object',
   fields: [
+    defineField({ name: 'variant', title: 'Variant', type: 'string', initialValue: 'states-pills', hidden: true }),
     defineField({ name: 'heading', title: 'Heading', type: 'string' }),
     defineField({
       name: 'states',

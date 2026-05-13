@@ -1,5 +1,6 @@
 import { SiteContent, SiteConfig, TemplateColors, Section } from '@/types/content';
 import { defaultContent } from './defaultContent';
+import { defaultVariants } from './variants';
 
 function mergeColors(
   sanityColors: Partial<TemplateColors> | null | undefined,
@@ -29,12 +30,20 @@ function mergeSiteConfig(
   };
 }
 
+function ensureVariant(section: Section): Section {
+  const s = section as Section & { variant?: string };
+  if (!s.variant) {
+    return { ...s, variant: defaultVariants[section._type] } as Section;
+  }
+  return section;
+}
+
 // These section types always render — inject from defaults if Sanity omits them
 const ALWAYS_PRESENT: Array<Section['_type']> = ['impactNumbers', 'statesServed'];
 
 function injectMissingSections(sanitySections: Section[]): Section[] {
   const existingTypes = new Set(sanitySections.map((s) => s._type));
-  const result = [...sanitySections];
+  const result = [...sanitySections].map(ensureVariant);
 
   for (const type of ALWAYS_PRESENT) {
     if (existingTypes.has(type)) continue;
@@ -43,11 +52,9 @@ function injectMissingSections(sanitySections: Section[]): Section[] {
     if (!fallback) continue;
 
     if (type === 'impactNumbers') {
-      // Insert immediately after heroSection
       const heroIdx = result.findIndex((s) => s._type === 'heroSection');
       result.splice(heroIdx !== -1 ? heroIdx + 1 : 1, 0, fallback);
     } else {
-      // Insert before contactForm, or at the end if no contact form
       const contactIdx = result.findIndex((s) => s._type === 'contactForm');
       result.splice(contactIdx !== -1 ? contactIdx : result.length, 0, fallback);
     }

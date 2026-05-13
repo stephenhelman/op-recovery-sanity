@@ -77,7 +77,13 @@ function renderField(field: FormField, value: string, onChange: (v: string) => v
   return null;
 }
 
-export default function ContactFormSection({ data }: { data: ContactForm }) {
+function FormCore({
+  data,
+  fields,
+}: {
+  data: ContactForm;
+  fields: FormField[];
+}) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -111,19 +117,58 @@ export default function ContactFormSection({ data }: { data: ContactForm }) {
 
   if (status === 'success') {
     return (
-      <section id="contact" className="py-16 md:py-24 px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <p
-            className="text-xl font-semibold"
-            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-primary)' }}
-          >
-            {data.successMessage}
-          </p>
-        </div>
-      </section>
+      <p
+        className="text-xl font-semibold text-center"
+        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-primary)' }}
+      >
+        {data.successMessage}
+      </p>
     );
   }
 
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Honeypot — hidden from real users */}
+      <input
+        type="text"
+        tabIndex={-1}
+        aria-hidden="true"
+        className="absolute opacity-0 w-0 h-0 pointer-events-none"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        autoComplete="off"
+      />
+      {fields.map((field) =>
+        renderField(field, values[field.label] || '', (v) => setValue(field.label, v))
+      )}
+      {status === 'error' && (
+        <p className="text-sm" style={{ color: 'var(--color-accent)' }}>{errorMsg}</p>
+      )}
+      <button
+        type="submit"
+        disabled={status === 'submitting'}
+        className="w-full py-4 font-bold rounded-md transition-opacity hover:opacity-90 disabled:opacity-60"
+        style={{
+          backgroundColor: 'var(--color-accent)',
+          color: 'var(--color-primary)',
+          fontFamily: 'var(--font-body)',
+        }}
+      >
+        {status === 'submitting' ? 'Submitting…' : data.submitText}
+      </button>
+      {data.footerNote && (
+        <p
+          className="mt-3 text-sm italic text-center"
+          style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)', opacity: 0.6 }}
+        >
+          {data.footerNote}
+        </p>
+      )}
+    </form>
+  );
+}
+
+function ContactStacked({ data }: { data: ContactForm }) {
   return (
     <section id="contact" className="py-16 md:py-24 px-6">
       <div className="max-w-2xl mx-auto">
@@ -142,45 +187,67 @@ export default function ContactFormSection({ data }: { data: ContactForm }) {
             {data.subheading}
           </p>
         )}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Honeypot — hidden from real users */}
-          <input
-            type="text"
-            tabIndex={-1}
-            aria-hidden="true"
-            className="absolute opacity-0 w-0 h-0 pointer-events-none"
-            value={honeypot}
-            onChange={(e) => setHoneypot(e.target.value)}
-            autoComplete="off"
-          />
-          {data.fields.map((field) =>
-            renderField(field, values[field.label] || '', (v) => setValue(field.label, v))
-          )}
-          {status === 'error' && (
-            <p className="text-sm" style={{ color: 'var(--color-accent)' }}>{errorMsg}</p>
-          )}
-          <button
-            type="submit"
-            disabled={status === 'submitting'}
-            className="w-full py-4 font-bold rounded-md transition-opacity hover:opacity-90 disabled:opacity-60"
-            style={{
-              backgroundColor: 'var(--color-accent)',
-              color: 'var(--color-primary)',
-              fontFamily: 'var(--font-body)',
-            }}
-          >
-            {status === 'submitting' ? 'Submitting…' : data.submitText}
-          </button>
-          {data.footerNote && (
-            <p
-              className="mt-3 text-sm italic text-center"
-              style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)', opacity: 0.6 }}
-            >
-              {data.footerNote}
-            </p>
-          )}
-        </form>
+        <FormCore data={data} fields={data.fields} />
       </div>
     </section>
   );
+}
+
+function ContactSplit({ data }: { data: ContactForm }) {
+  return (
+    <section id="contact" className="py-16 md:py-24 px-6">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        {/* Left — company info */}
+        <div>
+          <h2
+            className="text-3xl sm:text-4xl font-bold mb-4"
+            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+          >
+            {data.heading}
+          </h2>
+          <div className="mb-6 w-12 h-[3px]" style={{ backgroundColor: 'var(--color-accent)' }} />
+          {data.subheading && (
+            <p
+              className="mb-6 opacity-75 leading-relaxed"
+              style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)' }}
+            >
+              {data.subheading}
+            </p>
+          )}
+        </div>
+
+        {/* Right — form */}
+        <div>
+          <FormCore data={data} fields={data.fields} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactMinimal({ data }: { data: ContactForm }) {
+  const minimalFields = data.fields.filter(
+    (f) => f._type === 'textField' || f._type === 'emailField' || f._type === 'phoneField'
+  );
+
+  return (
+    <section id="contact" className="py-16 md:py-24 px-6">
+      <div className="max-w-2xl mx-auto">
+        <h2
+          className="text-3xl sm:text-4xl font-bold text-center"
+          style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+        >
+          {data.heading}
+        </h2>
+        <div className="mt-3 mb-8 w-12 h-[3px] mx-auto" style={{ backgroundColor: 'var(--color-accent)' }} />
+        <FormCore data={data} fields={minimalFields} />
+      </div>
+    </section>
+  );
+}
+
+export default function ContactFormSection({ data }: { data: ContactForm }) {
+  if (data.variant === 'contact-split') return <ContactSplit data={data} />;
+  if (data.variant === 'contact-minimal') return <ContactMinimal data={data} />;
+  return <ContactStacked data={data} />;
 }

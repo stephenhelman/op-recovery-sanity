@@ -5,6 +5,7 @@ export default defineType({
   title: 'Problem Section',
   type: 'object',
   fields: [
+    defineField({ name: 'variant', title: 'Variant', type: 'string', initialValue: 'problem-simple', hidden: true }),
     defineField({ name: 'heading', title: 'Heading', type: 'string' }),
     defineField({ name: 'body', title: 'Body', type: 'text' }),
     defineField({ name: 'listTitle', title: 'List Title (above bullets)', type: 'string' }),

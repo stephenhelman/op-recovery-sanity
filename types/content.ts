@@ -18,6 +18,7 @@ export interface SiteConfig {
 
 export interface HeroSection {
   _type: 'heroSection';
+  variant?: string;
   headline: string;
   subheadline: string;
   ctaText: string;
@@ -26,6 +27,7 @@ export interface HeroSection {
 
 export interface ProblemSection {
   _type: 'problemSection';
+  variant?: string;
   heading: string;
   body: string;
   listTitle?: string;
@@ -35,11 +37,13 @@ export interface ProblemSection {
 
 export interface ImpactNumbers {
   _type: 'impactNumbers';
+  variant?: string;
   stats: { value: string; label: string }[];
 }
 
 export interface ServiceBlock {
   _type: 'serviceBlock';
+  variant?: string;
   heading: string;
   body: string;
   listTitle?: string;
@@ -49,12 +53,14 @@ export interface ServiceBlock {
 
 export interface HowItWorks {
   _type: 'howItWorks';
+  variant?: string;
   heading: string;
   steps: { title: string; description: string }[];
 }
 
 export interface WhyChooseUs {
   _type: 'whyChooseUs';
+  variant?: string;
   heading: string;
   listTitle?: string;
   bullets: { point: string }[];
@@ -63,18 +69,21 @@ export interface WhyChooseUs {
 
 export interface StatesServed {
   _type: 'statesServed';
+  variant?: string;
   heading: string;
   states: string[];
 }
 
 export interface AboutSection {
   _type: 'aboutSection';
+  variant?: string;
   heading: string;
   body: string;
 }
 
 export interface FaqSection {
   _type: 'faqSection';
+  variant?: string;
   items: { question: string; answer: string }[];
 }
 
@@ -88,6 +97,7 @@ export type FormField = TextField | EmailField | PhoneField | DropdownField | Te
 
 export interface ContactForm {
   _type: 'contactForm';
+  variant?: string;
   heading: string;
   subheading: string;
   submitText: string;
@@ -98,7 +108,34 @@ export interface ContactForm {
 
 export interface DisclaimerSection {
   _type: 'disclaimerSection';
+  variant?: string;
   body: string;
+}
+
+export interface StepsSection {
+  _type: 'stepsSection';
+  _key: string;
+  variant: 'steps-cards' | 'steps-circles' | 'steps-numbered' | 'steps-timeline';
+  headline?: string;
+  headlineAccent?: string;
+  steps: {
+    stepNumber: string;
+    title: string;
+    description: string;
+  }[];
+  ctaType?: 'phone' | 'button' | 'none';
+  ctaText?: string;
+  ctaPhone?: string;
+}
+
+export interface CtaSection {
+  _type: 'ctaSection';
+  _key: string;
+  variant: 'cta-phone' | 'cta-button' | 'cta-banner';
+  headline?: string;
+  subheadline?: string;
+  ctaText?: string;
+  ctaPhone?: string;
 }
 
 export type Section =
@@ -112,7 +149,9 @@ export type Section =
   | AboutSection
   | FaqSection
   | ContactForm
-  | DisclaimerSection;
+  | DisclaimerSection
+  | StepsSection
+  | CtaSection;
 
 export interface SiteContent {
   siteConfig: SiteConfig;

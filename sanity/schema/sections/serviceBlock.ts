@@ -5,6 +5,19 @@ export default defineType({
   title: 'Service Block',
   type: 'object',
   fields: [
+    defineField({
+      name: 'variant',
+      title: 'Variant',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Cards', value: 'service-cards' },
+          { title: 'List', value: 'service-list' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'service-cards',
+    }),
     defineField({ name: 'heading', title: 'Heading', type: 'string' }),
     defineField({ name: 'body', title: 'Body', type: 'text' }),
     defineField({ name: 'listTitle', title: 'List Title (above bullets)', type: 'string' }),

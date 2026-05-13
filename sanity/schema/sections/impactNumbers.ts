@@ -6,6 +6,19 @@ export default defineType({
   type: 'object',
   fields: [
     defineField({
+      name: 'variant',
+      title: 'Variant',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Dark', value: 'numbers-dark' },
+          { title: 'Light', value: 'numbers-light' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'numbers-dark',
+    }),
+    defineField({
       name: 'stats',
       title: 'Stats',
       type: 'array',

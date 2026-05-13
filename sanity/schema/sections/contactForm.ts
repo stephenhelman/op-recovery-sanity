@@ -58,6 +58,20 @@ const contactForm = defineType({
   title: 'Contact Form',
   type: 'object',
   fields: [
+    defineField({
+      name: 'variant',
+      title: 'Variant',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Stacked', value: 'contact-stacked' },
+          { title: 'Split', value: 'contact-split' },
+          { title: 'Minimal', value: 'contact-minimal' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'contact-stacked',
+    }),
     defineField({ name: 'heading', title: 'Heading', type: 'string' }),
     defineField({ name: 'subheading', title: 'Subheading', type: 'string' }),
     defineField({ name: 'submitText', title: 'Submit Button Text', type: 'string' }),

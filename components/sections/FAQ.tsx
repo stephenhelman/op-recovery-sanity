@@ -62,7 +62,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-export default function FAQ({ data }: { data: FaqSection }) {
+function FaqAccordion({ data }: { data: FaqSection }) {
   return (
     <section className="py-16 md:py-24 px-6">
       <div className="max-w-3xl mx-auto">
@@ -81,4 +81,47 @@ export default function FAQ({ data }: { data: FaqSection }) {
       </div>
     </section>
   );
+}
+
+function FaqGrid({ data }: { data: FaqSection }) {
+  return (
+    <section className="py-16 md:py-24 px-6">
+      <div className="max-w-5xl mx-auto">
+        <h2
+          className="text-3xl sm:text-4xl font-bold text-center"
+          style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+        >
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-3 mb-10 w-12 h-[3px] mx-auto" style={{ backgroundColor: 'var(--color-accent)' }} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {data.items.map((item, i) => (
+            <div
+              key={i}
+              className="p-6 rounded-lg"
+              style={{ border: '1px solid var(--color-primary)' }}
+            >
+              <h3
+                className="font-semibold text-base mb-3"
+                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-primary)' }}
+              >
+                {item.question}
+              </h3>
+              <p
+                className="text-sm leading-relaxed opacity-75"
+                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)' }}
+              >
+                {item.answer}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function FAQ({ data }: { data: FaqSection }) {
+  if (data.variant === 'faq-grid') return <FaqGrid data={data} />;
+  return <FaqAccordion data={data} />;
 }

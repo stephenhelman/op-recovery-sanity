@@ -18,6 +18,7 @@ export const defaultContent: SiteContent = {
   sections: [
     {
       _type: 'heroSection',
+      variant: 'hero-centered',
       headline: 'You May Be Owed Money From a Property Sale or Foreclosure',
       subheadline:
         'We identify unclaimed surplus funds and guide you through the claims process — nationwide, at no upfront cost.',
@@ -25,6 +26,7 @@ export const defaultContent: SiteContent = {
     },
     {
       _type: 'impactNumbers',
+      variant: 'numbers-dark',
       stats: [
         { value: '$2.3B+', label: 'Surplus Funds Available Nationwide' },
         { value: '45+', label: 'States We Operate In' },
@@ -34,6 +36,7 @@ export const defaultContent: SiteContent = {
     },
     {
       _type: 'howItWorks',
+      variant: 'steps-numbered',
       heading: 'A Simple, Guided Process',
       steps: [
         {
@@ -55,11 +58,13 @@ export const defaultContent: SiteContent = {
     },
     {
       _type: 'statesServed',
+      variant: 'states-pills',
       heading: 'Serving Claimants Across the Nation',
       states: ALL_STATES,
     },
     {
       _type: 'faqSection',
+      variant: 'faq-accordion',
       items: [
         {
           question: 'What are surplus funds?',
@@ -100,11 +105,13 @@ export const defaultContent: SiteContent = {
     },
     {
       _type: 'aboutSection',
+      variant: 'about-centered',
       heading: 'A Trusted Guide Through a Complex Process',
       body: 'We are a nationwide asset recovery firm helping property owners and heirs claim funds they are legally owed from foreclosure and tax deed proceedings. We work on a contingency basis — you pay nothing until we recover your funds.',
     },
     {
       _type: 'contactForm',
+      variant: 'contact-stacked',
       heading: 'Find Out If Money Is Owed to You',
       subheading: 'Complete the form below for a free, no-obligation review.',
       submitText: 'Submit for Free Review',

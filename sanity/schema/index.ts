@@ -10,6 +10,8 @@ import about from './sections/about';
 import faq from './sections/faq';
 import contactForm, { textField, emailField, phoneField, dropdownField, textareaField } from './sections/contactForm';
 import disclaimer from './sections/disclaimer';
+import stepsSection from './sections/stepsSection';
+import ctaSection from './sections/ctaSection';
 
 export const schemaTypes = [
   siteConfig,
@@ -29,4 +31,6 @@ export const schemaTypes = [
   dropdownField,
   textareaField,
   disclaimer,
+  stepsSection,
+  ctaSection,
 ];

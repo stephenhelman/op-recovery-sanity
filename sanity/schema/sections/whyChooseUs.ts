@@ -5,6 +5,20 @@ export default defineType({
   title: 'Why Choose Us',
   type: 'object',
   fields: [
+    defineField({
+      name: 'variant',
+      title: 'Variant',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Bullets', value: 'list-bullets' },
+          { title: 'Checks', value: 'list-checks' },
+          { title: 'Cards', value: 'list-cards' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'list-bullets',
+    }),
     defineField({ name: 'heading', title: 'Heading', type: 'string' }),
     defineField({ name: 'listTitle', title: 'List Title (above bullets)', type: 'string' }),
     defineField({

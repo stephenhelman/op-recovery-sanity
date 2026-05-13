@@ -49,6 +49,8 @@ export default defineType({
         { type: 'faqSection' },
         { type: 'contactForm' },
         { type: 'disclaimerSection' },
+        { type: 'stepsSection' },
+        { type: 'ctaSection' },
       ],
     }),
   ],

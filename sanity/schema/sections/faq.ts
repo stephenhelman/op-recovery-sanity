@@ -6,6 +6,19 @@ export default defineType({
   type: 'object',
   fields: [
     defineField({
+      name: 'variant',
+      title: 'Variant',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Accordion', value: 'faq-accordion' },
+          { title: 'Grid', value: 'faq-grid' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'faq-accordion',
+    }),
+    defineField({
       name: 'items',
       title: 'FAQ Items',
       type: 'array',
