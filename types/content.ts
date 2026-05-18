@@ -106,6 +106,16 @@ export interface ContactForm {
   successMessage: string;
   footerNote?: string;
   fields: FormField[];
+  formSettings?: {
+    replyToEmail?: string;
+    fromName?: string;
+    fromEmail?: string;
+    formAction?: 'email' | 'email+sheets' | 'email+ghl' | 'email+sheets+ghl';
+    googleWebhookUrl?: string;
+    ghlApiKey?: string;
+    ghlPipelineId?: string;
+    ghlStageId?: string;
+  };
 }
 
 export interface DisclaimerSection {

@@ -89,6 +89,78 @@ const contactForm = defineType({
         { type: 'textareaField' },
       ],
     }),
+    defineField({
+      name: 'formSettings',
+      title: 'Form Settings',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'replyToEmail',
+          title: 'Reply-To Email',
+          type: 'string',
+          description: 'When you receive a lead notification, hitting reply will go to this address. Leave blank to reply to the lead directly.',
+        }),
+        defineField({
+          name: 'fromName',
+          title: 'From Name',
+          type: 'string',
+          description: 'Name shown on emails sent to leads. Defaults to company name.',
+        }),
+        defineField({
+          name: 'fromEmail',
+          title: 'From Email Address',
+          type: 'string',
+          description: 'Email address confirmation emails are sent from. Must be verified in Resend.',
+        }),
+        defineField({
+          name: 'formAction',
+          title: 'Form Action',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Email Only', value: 'email' },
+              { title: 'Email + Google Sheets', value: 'email+sheets' },
+              { title: 'Email + GHL', value: 'email+ghl' },
+              { title: 'Email + Sheets + GHL', value: 'email+sheets+ghl' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'email',
+        }),
+        defineField({
+          name: 'googleWebhookUrl',
+          title: 'Google Sheets Webhook URL',
+          type: 'string',
+          description: 'Paste the Google Apps Script webhook URL here. See setup instructions.',
+          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+            !parent?.formAction?.includes('sheets'),
+        }),
+        defineField({
+          name: 'ghlApiKey',
+          title: 'GHL API Key',
+          type: 'string',
+          description: 'Your GoHighLevel API key from Settings → Integrations.',
+          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+            !parent?.formAction?.includes('ghl'),
+        }),
+        defineField({
+          name: 'ghlPipelineId',
+          title: 'GHL Pipeline ID',
+          type: 'string',
+          description: 'Optional. The pipeline to add this lead to.',
+          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+            !parent?.formAction?.includes('ghl'),
+        }),
+        defineField({
+          name: 'ghlStageId',
+          title: 'GHL Stage ID',
+          type: 'string',
+          description: 'Optional. The stage within the pipeline.',
+          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+            !parent?.formAction?.includes('ghl'),
+        }),
+      ],
+    }),
   ],
 });
 

@@ -42,6 +42,7 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     submitText,
     successMessage,
     footerNote,
+    formSettings,
     fields[]{
       _type,
       label,
