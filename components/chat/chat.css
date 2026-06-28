@@ -1,0 +1,253 @@
+/* Chat widget — themed entirely via --cw-* set on .cw-root inline.
+   Does NOT depend on the page wrapper's --color-* tokens. */
+
+.cw-root {
+  --cw-radius: 16px;
+  --cw-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  position: fixed;
+  z-index: 2147483000; /* above page chrome */
+  bottom: 20px;
+  right: 20px;
+  font-family: var(--font-body, system-ui, -apple-system, Segoe UI, Roboto, sans-serif);
+  color: var(--cw-text);
+}
+
+/* Launcher -------------------------------------------------------------- */
+.cw-launcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--cw-accent);
+  color: var(--cw-primary);
+  box-shadow: var(--cw-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cw-launcher:hover {
+  transform: translateY(-2px);
+}
+.cw-launcher svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Panel ----------------------------------------------------------------- */
+.cw-panel {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  height: 560px;
+  max-height: calc(100vh - 40px);
+  background: var(--cw-surface);
+  border-radius: var(--cw-radius);
+  box-shadow: var(--cw-shadow);
+  overflow: hidden;
+  animation: cw-pop 0.18s ease-out;
+}
+
+@keyframes cw-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--cw-primary);
+  color: #fff;
+  flex: none;
+}
+.cw-title {
+  font-weight: 700;
+  font-size: 15px;
+  font-family: var(--font-heading, inherit);
+}
+.cw-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 6px;
+  opacity: 0.85;
+}
+.cw-close:hover { opacity: 1; }
+
+.cw-messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cw-bubble {
+  max-width: 82%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.cw-bubble-bot {
+  align-self: flex-start;
+  background: color-mix(in srgb, var(--cw-primary) 10%, var(--cw-surface));
+  color: var(--cw-text);
+  border-bottom-left-radius: 4px;
+}
+.cw-bubble-user {
+  align-self: flex-end;
+  background: var(--cw-accent);
+  color: var(--cw-primary);
+  border-bottom-right-radius: 4px;
+}
+
+/* Controls -------------------------------------------------------------- */
+.cw-controls {
+  flex: none;
+  padding: 12px;
+  border-top: 1px solid color-mix(in srgb, var(--cw-text) 12%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cw-option {
+  text-align: left;
+  padding: 10px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--cw-primary);
+  background: transparent;
+  color: var(--cw-text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.cw-option:hover {
+  background: var(--cw-primary);
+  color: #fff;
+}
+
+.cw-inputrow {
+  display: flex;
+  gap: 8px;
+}
+.cw-input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--cw-primary);
+  background: #fff;
+  color: var(--cw-text);
+  font-size: 14px;
+  outline: none;
+}
+.cw-input:focus-visible {
+  border-color: var(--cw-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cw-accent) 40%, transparent);
+}
+.cw-send {
+  flex: none;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: none;
+  background: var(--cw-accent);
+  color: var(--cw-primary);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.cw-send:disabled { opacity: 0.5; cursor: default; }
+
+.cw-skip {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  color: var(--cw-text);
+  opacity: 0.7;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.cw-cta {
+  display: block;
+  text-align: center;
+  padding: 11px 13px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--cw-primary);
+}
+.cw-cta-primary {
+  background: var(--cw-accent);
+  color: var(--cw-primary);
+  border-color: var(--cw-accent);
+}
+.cw-cta-secondary {
+  background: transparent;
+  color: var(--cw-text);
+}
+
+/* Typing indicator */
+.cw-typing {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 16px 8px;
+  flex: none;
+}
+.cw-typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cw-primary);
+  opacity: 0.4;
+  animation: cw-bounce 1.2s infinite ease-in-out;
+}
+.cw-typing span:nth-child(2) { animation-delay: 0.15s; }
+.cw-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cw-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 0.9; }
+}
+
+/* Visible keyboard focus for all interactive elements. */
+.cw-root :focus-visible {
+  outline: 2px solid var(--cw-accent);
+  outline-offset: 2px;
+}
+
+/* Mobile: panel fills the viewport bottom. */
+@media (max-width: 480px) {
+  .cw-root { bottom: 0; right: 0; left: 0; }
+  .cw-launcher { position: fixed; bottom: 16px; right: 16px; }
+  .cw-panel {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-panel { animation: none; }
+  .cw-launcher { transition: none; }
+  .cw-launcher:hover { transform: none; }
+}

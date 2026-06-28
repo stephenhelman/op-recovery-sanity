@@ -150,6 +150,23 @@ export interface CtaSection {
   ctaPhone?: string;
 }
 
+export interface ChatWidget {
+  _type: 'chatWidget';
+  enabled?: boolean;
+  mode?: 'tree' | 'ai';
+  brandName?: string;
+  welcomeMessage?: string;
+  captureEmail?: boolean;
+  ctaPhone?: string;
+  ctaFormHref?: string;
+  treeId?: string;
+  knowledge?: string;
+  // Phase 2 (Meta) — present but unused by the widget
+  facebookEnabled?: boolean;
+  whatsappEnabled?: boolean;
+  whatsappNumber?: string;
+}
+
 export type Section =
   | HeroSection
   | ProblemSection
@@ -163,7 +180,8 @@ export type Section =
   | ContactForm
   | DisclaimerSection
   | StepsSection
-  | CtaSection;
+  | CtaSection
+  | ChatWidget;
 
 export interface SiteContent {
   siteConfig: SiteConfig;

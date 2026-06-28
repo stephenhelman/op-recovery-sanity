@@ -66,6 +66,7 @@ export default defineType({
         { type: 'disclaimerSection' },
         { type: 'stepsSection' },
         { type: 'ctaSection' },
+        { type: 'chatWidget' },
       ],
     }),
   ],

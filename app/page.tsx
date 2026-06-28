@@ -5,7 +5,9 @@ import SectionRenderer from "@/components/sections/SectionRenderer";
 import Footer from "@/components/sections/Footer";
 import Hero from "@/components/sections/Hero";
 import { ServiceBlocksWrapper } from "@/components/sections/ServiceBlock";
-import { Section, ServiceBlock, HeroSection } from "@/types/content";
+import ChatWidget from "@/components/chat/ChatWidget";
+import { Section, ServiceBlock, HeroSection, ChatWidget as ChatWidgetData } from "@/types/content";
+import { ChatConfig } from "@/lib/chat/types";
 
 export const revalidate = 60;
 
@@ -23,15 +25,36 @@ export default async function Home() {
   const { colors, fontPairing } = content.siteConfig;
   const fonts = fontPairings[fontPairing] ?? fontPairings.authority;
 
+  // Chat widget is a singleton — pull it out of the section flow (it portals to
+  // body). Using `find` means a second chatWidget section never renders twice.
+  const chatWidgetData = content.sections.find(
+    (s) => s._type === 'chatWidget'
+  ) as ChatWidgetData | undefined;
+  const sections = content.sections.filter((s) => s._type !== 'chatWidget');
+
+  const chatConfig: ChatConfig | null = chatWidgetData
+    ? {
+        enabled: chatWidgetData.enabled ?? false,
+        mode: chatWidgetData.mode ?? 'tree',
+        brandName: chatWidgetData.brandName || content.siteConfig.companyName,
+        welcomeMessage: chatWidgetData.welcomeMessage,
+        captureEmail: chatWidgetData.captureEmail ?? true,
+        ctaPhone: chatWidgetData.ctaPhone,
+        ctaFormHref: chatWidgetData.ctaFormHref,
+        treeId: chatWidgetData.treeId,
+        knowledge: chatWidgetData.knowledge,
+      }
+    : null;
+
   // Group consecutive serviceBlock sections so they render side-by-side
   const processedSections: ProcessedSection[] = [];
   let i = 0;
-  while (i < content.sections.length) {
-    const s = content.sections[i];
+  while (i < sections.length) {
+    const s = sections[i];
     if (s._type === 'serviceBlock') {
       const blocks: ServiceBlock[] = [];
-      while (i < content.sections.length && content.sections[i]._type === 'serviceBlock') {
-        blocks.push(content.sections[i] as ServiceBlock);
+      while (i < sections.length && sections[i]._type === 'serviceBlock') {
+        blocks.push(sections[i] as ServiceBlock);
         i++;
       }
       processedSections.push({ _type: 'serviceBlockGroup', blocks });
@@ -93,6 +116,7 @@ export default async function Home() {
         );
       })}
       <Footer config={content.siteConfig} />
+      {chatConfig?.enabled && <ChatWidget config={chatConfig} colors={colors} />}
     </div>
   );
 }

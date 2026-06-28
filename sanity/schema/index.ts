@@ -12,6 +12,7 @@ import contactForm, { textField, emailField, phoneField, dropdownField, textarea
 import disclaimer from './sections/disclaimer';
 import stepsSection from './sections/stepsSection';
 import ctaSection from './sections/ctaSection';
+import chatWidget from './sections/chatWidget';
 
 export const schemaTypes = [
   siteConfig,
@@ -33,4 +34,5 @@ export const schemaTypes = [
   disclaimer,
   stepsSection,
   ctaSection,
+  chatWidget,
 ];

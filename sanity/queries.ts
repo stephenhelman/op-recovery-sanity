@@ -52,6 +52,18 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     },
     // disclaimerSection
     // body already included above
+    // chatWidget
+    enabled,
+    mode,
+    brandName,
+    welcomeMessage,
+    captureEmail,
+    ctaFormHref,
+    treeId,
+    knowledge,
+    facebookEnabled,
+    whatsappEnabled,
+    whatsappNumber,
   }
 }`;
 

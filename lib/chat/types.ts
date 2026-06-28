@@ -1,0 +1,92 @@
+import { TemplateColors } from '@/types/content';
+
+export type ChatRole = 'bot' | 'user';
+
+export interface ChatMessage {
+  id: string;
+  role: ChatRole;
+  text: string;
+}
+
+export type LeadFieldName = 'name' | 'email' | 'phone';
+
+export interface Lead {
+  name?: string;
+  email?: string;
+  phone?: string;
+}
+
+export type ChatMode = 'tree' | 'ai';
+
+/**
+ * Runtime config handed to the widget. Maps from the Sanity `chatWidget`
+ * section, with brand colors resolved from siteConfig and passed alongside.
+ */
+export interface ChatConfig {
+  enabled: boolean;
+  mode: ChatMode;
+  brandName: string;
+  welcomeMessage?: string;
+  captureEmail: boolean;
+  ctaPhone?: string;
+  ctaFormHref?: string;
+  treeId?: string;
+  /** AI mode only — used in Sprint 2. */
+  knowledge?: string;
+}
+
+// --- Decision tree definitions -------------------------------------------
+
+export interface TreeOption {
+  /** Button text shown to the user. */
+  label: string;
+  /** Id of the node to enter when chosen. */
+  next: string;
+}
+
+export interface TreeCapture {
+  field: LeadFieldName;
+  /** Re-prompt shown when the input fails validation. */
+  invalid: string;
+  /** Optional fields can be skipped with a button. */
+  optional?: boolean;
+  /** Label for the skip button (optional captures only). */
+  skipLabel?: string;
+  /** Node to enter once captured (or skipped). */
+  next: string;
+}
+
+export interface TreeNode {
+  id: string;
+  /** Bot lines emitted on entering this node. */
+  say: string[];
+  /** Branch choices. Mutually exclusive with `capture` / `end`. */
+  options?: TreeOption[];
+  /** Ask for a single lead field. */
+  capture?: TreeCapture;
+  /** Terminal node. */
+  end?: boolean;
+  /** Show the CTA buttons (call / contact form) on a terminal node. */
+  cta?: boolean;
+}
+
+export interface Tree {
+  id: string;
+  start: string;
+  nodes: Record<string, TreeNode>;
+}
+
+// --- API payloads ---------------------------------------------------------
+
+export interface ChatLeadRequest {
+  lead: Lead;
+  transcript?: string;
+}
+
+export interface ChatLeadResponse {
+  success: boolean;
+  error?: string;
+}
+
+// Re-exported for convenience at call sites that theme the widget.
+export type { TemplateColors };
