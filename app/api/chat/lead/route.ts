@@ -24,14 +24,18 @@ export async function POST(req: NextRequest) {
     // exists, dispatchLead degrades to email-only (env) and skips sheets/GHL.
     const siteData = await loadSiteData();
 
-    await dispatchLead({
+    const summary = await dispatchLead({
       fields,
       formSettings: siteData?.formSettings ?? {},
       siteData,
       transcript,
     });
 
-    return NextResponse.json({ success: true });
+    if (summary.anyFailed) {
+      console.warn('[chat-lead] partial lead delivery:', JSON.stringify(summary.results));
+    }
+
+    return NextResponse.json({ success: true, delivery: summary });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     return NextResponse.json({ success: false, error: message }, { status: 500 });

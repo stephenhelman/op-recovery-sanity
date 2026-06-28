@@ -16,13 +16,19 @@ export async function POST(req: NextRequest) {
     const siteData = await loadSiteData();
     const fieldArray = Object.entries(fields).map(([label, value]) => ({ label, value }));
 
-    await dispatchLead({
+    const summary = await dispatchLead({
       fields: fieldArray,
       formSettings: siteData?.formSettings ?? {},
       siteData,
     });
 
-    return NextResponse.json({ success: true });
+    if (summary.anyFailed) {
+      console.warn('[contact] partial lead delivery:', JSON.stringify(summary.results));
+    }
+
+    // Lead is still captured (e.g. sheet/GHL) even if a channel failed, so the
+    // form shows success; the per-channel summary rides along for visibility.
+    return NextResponse.json({ success: true, delivery: summary });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     return NextResponse.json({ success: false, error: message }, { status: 500 });

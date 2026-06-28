@@ -1,21 +1,14 @@
-import { Resend } from 'resend';
 import { client } from '@/sanity/client';
-import { buildNotificationEmail, buildConfirmationEmail } from '@/lib/emailTemplates';
-import { postToSheets } from '@/lib/formActions/postToSheets';
-import { postToGHL } from '@/lib/formActions/postToGHL';
+import { channels } from './channels';
+import {
+  ChannelResult,
+  ChannelConfig,
+  FormSettings,
+  LeadField,
+  LeadPayload,
+} from './channels/types';
 
-export type LeadField = { label: string; value: string };
-
-export interface FormSettings {
-  replyToEmail?: string;
-  fromName?: string;
-  fromEmail?: string;
-  formAction?: 'email' | 'email+sheets' | 'email+ghl' | 'email+sheets+ghl';
-  googleWebhookUrl?: string;
-  ghlApiKey?: string;
-  ghlPipelineId?: string;
-  ghlStageId?: string;
-}
+export type { ChannelResult, FormSettings, LeadField };
 
 export interface SiteData {
   companyName?: string;
@@ -43,14 +36,20 @@ const DEFAULT_COLORS = {
   text: '#1B2A4A',
 };
 
+export interface DispatchSummary {
+  results: ChannelResult[];
+  anyFailed: boolean;
+}
+
 /**
- * The single lead sink. Logic moved verbatim from the original
- * app/api/contact/route.ts so contact-form and chat leads hit identical
- * destinations (notification + confirmation email, Sheets, GHL).
+ * Thin orchestrator. Normalizes the lead, builds injected config from env +
+ * siteData, selects the enabled channels (gated by formSettings, same as
+ * before), runs them, logs every `ok: false` explicitly, and returns a
+ * summary. It does NOT swallow failures — a partial failure is visible in the
+ * summary and the logs.
  *
- * `transcript`, when present, is appended ONLY to the notification email
- * (as a "Conversation" field) — never to the Sheets or GHL payloads, so
- * sheet columns stay clean.
+ * `transcript` rides on the notification email only (handled inside the email
+ * channel); sheets/GHL receive the clean `fields`.
  */
 export async function dispatchLead({
   fields,
@@ -62,89 +61,47 @@ export async function dispatchLead({
   formSettings?: FormSettings;
   siteData: SiteData | null;
   transcript?: string;
-}): Promise<void> {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
+}): Promise<DispatchSummary> {
   const companyName =
     siteData?.companyName || process.env.NEXT_PUBLIC_COMPANY_NAME || 'Surplus Recovery';
-  const notifyEmail = process.env.NEXT_PUBLIC_NOTIFY_EMAIL;
+  const colors = siteData?.colors ?? DEFAULT_COLORS;
+  const submittedAt = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
 
   const byLabel = (label: string) => fields.find((f) => f.label === label)?.value || '';
   const submitterEmail = byLabel('Email Address') || byLabel('Email');
-  const colors = siteData?.colors ?? DEFAULT_COLORS;
+  const recipientName = byLabel('Full Name') || byLabel('Name') || 'there';
 
-  const submittedAt = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
-  const fieldArray = fields;
+  const payload: LeadPayload = {
+    fields,
+    companyName,
+    colors,
+    submittedAt,
+    submitterEmail,
+    recipientName,
+    transcript,
+  };
 
-  const notifyDomain = notifyEmail?.split('@')[1] || 'mail.example.com';
-  const fromName = formSettings.fromName || companyName;
-  const confirmFromAddress = formSettings.fromEmail || `noreply@${notifyDomain}`;
+  const cfg: ChannelConfig = {
+    formSettings,
+    resendApiKey: process.env.RESEND_API_KEY,
+    notifyEmail: process.env.NEXT_PUBLIC_NOTIFY_EMAIL,
+    contactEmail: siteData?.contactEmail,
+  };
 
-  // Transcript rides along on the notification email only.
-  const notifyFields = transcript
-    ? [...fieldArray, { label: 'Conversation', value: transcript }]
-    : fieldArray;
+  const active = channels.filter((c) => c.enabled(cfg));
+  const results = await Promise.all(
+    active.map(async (c): Promise<ChannelResult> => {
+      try {
+        return await c.run(payload, cfg);
+      } catch (err) {
+        return { channel: c.key, ok: false, error: err instanceof Error ? err.message : String(err) };
+      }
+    })
+  );
 
-  const promises: Promise<unknown>[] = [];
-
-  if (notifyEmail) {
-    promises.push(
-      resend.emails.send({
-        from: `${companyName} <noreply@${notifyDomain}>`,
-        to: notifyEmail,
-        ...(submitterEmail ? { replyTo: submitterEmail } : {}),
-        subject: `New Inquiry — ${companyName}`,
-        html: buildNotificationEmail({ companyName, colors, fields: notifyFields, submittedAt }),
-      })
-    );
+  for (const r of results) {
+    if (!r.ok) console.error(`[lead] channel "${r.channel}" failed: ${r.error}`);
   }
 
-  if (submitterEmail) {
-    const recipientName = byLabel('Full Name') || byLabel('Name') || 'there';
-    const successMessage = 'A member of our team will be in touch within 1 business day.';
-    const confirmReplyTo = formSettings.replyToEmail || siteData?.contactEmail || undefined;
-
-    promises.push(
-      resend.emails.send({
-        from: `${fromName} <${confirmFromAddress}>`,
-        to: submitterEmail,
-        ...(confirmReplyTo ? { replyTo: confirmReplyTo } : {}),
-        subject: `We received your inquiry — ${companyName}`,
-        html: buildConfirmationEmail({
-          companyName,
-          colors,
-          recipientName,
-          successMessage,
-          fields: fieldArray,
-        }),
-      })
-    );
-  }
-
-  await Promise.all(promises);
-
-  const formAction = formSettings.formAction ?? 'email';
-
-  if (formAction.includes('sheets') && formSettings.googleWebhookUrl) {
-    const sheetsResult = await postToSheets(formSettings.googleWebhookUrl, {
-      submittedAt,
-      companyName,
-      fields: fieldArray,
-    });
-    if (!sheetsResult.success) {
-      console.error('Sheets post failed:', sheetsResult.error);
-    }
-  }
-
-  if (formAction.includes('ghl') && formSettings.ghlApiKey) {
-    const ghlResult = await postToGHL(formSettings.ghlApiKey, {
-      fields: fieldArray,
-      pipelineId: formSettings.ghlPipelineId,
-      stageId: formSettings.ghlStageId,
-      companyName,
-    });
-    if (!ghlResult.success) {
-      console.error('GHL post failed:', ghlResult.error);
-    }
-  }
+  return { results, anyFailed: results.some((r) => !r.ok) };
 }
