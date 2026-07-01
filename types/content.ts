@@ -155,6 +155,11 @@ export interface ChatWidget {
   enabled?: boolean;
   mode?: 'tree' | 'ai';
   brandName?: string;
+  ownerName?: string;
+  assistantName?: string;
+  statusText?: string;
+  avatarInitials?: string;
+  nudgeMessage?: string;
   welcomeMessage?: string;
   captureEmail?: boolean;
   ctaPhone?: string;

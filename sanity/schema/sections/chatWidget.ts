@@ -30,9 +30,44 @@ export default defineType({
     }),
     defineField({
       name: 'brandName',
-      title: 'Brand Name (header)',
+      title: 'Brand Name',
       type: 'string',
-      description: 'Name shown in the chat header. Defaults to the site company name.',
+      description: 'Company name. Drives the monogram initial. Defaults to the site company name.',
+    }),
+    defineField({
+      name: 'ownerName',
+      title: 'Owner First Name (optional)',
+      type: 'string',
+      description:
+        'If set, the assistant is named "{Owner}’s Assistant" (e.g. "Maureen’s Assistant") — warm and honest. Overridden by Assistant Name below.',
+    }),
+    defineField({
+      name: 'assistantName',
+      title: 'Assistant Name (optional override)',
+      type: 'string',
+      description:
+        'Exact name shown in the header. Leave blank to use "{Owner}’s Assistant", or "{Brand} Assistant" if no owner is set. Do not use a fake human first name.',
+    }),
+    defineField({
+      name: 'statusText',
+      title: 'Status Line (optional override)',
+      type: 'string',
+      description: 'Small line under the assistant name. Defaults to "Typically replies instantly".',
+    }),
+    defineField({
+      name: 'avatarInitials',
+      title: 'Monogram Initials (optional override)',
+      type: 'string',
+      description:
+        'Override the header/launcher monogram. Defaults to the first letter of the brand name (e.g. "N"). Keep it 1–2 characters.',
+      validation: (Rule) => Rule.max(2),
+    }),
+    defineField({
+      name: 'nudgeMessage',
+      title: 'Proactive Nudge Message (optional)',
+      type: 'string',
+      description:
+        'Quiet teaser shown once per visit above the launcher. Defaults to "Questions about surplus funds? I’m here to help — no pressure."',
     }),
     defineField({
       name: 'welcomeMessage',

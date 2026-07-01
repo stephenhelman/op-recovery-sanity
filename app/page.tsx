@@ -37,6 +37,11 @@ export default async function Home() {
         enabled: chatWidgetData.enabled ?? false,
         mode: chatWidgetData.mode ?? 'tree',
         brandName: chatWidgetData.brandName || content.siteConfig.companyName,
+        ownerName: chatWidgetData.ownerName,
+        assistantName: chatWidgetData.assistantName,
+        statusText: chatWidgetData.statusText,
+        avatarInitials: chatWidgetData.avatarInitials,
+        nudgeMessage: chatWidgetData.nudgeMessage,
         welcomeMessage: chatWidgetData.welcomeMessage,
         captureEmail: chatWidgetData.captureEmail ?? true,
         ctaPhone: chatWidgetData.ctaPhone,
@@ -116,7 +121,7 @@ export default async function Home() {
         );
       })}
       <Footer config={content.siteConfig} />
-      {chatConfig?.enabled && <ChatWidget config={chatConfig} colors={colors} />}
+      {chatConfig?.enabled && <ChatWidget config={chatConfig} colors={colors} fonts={fonts} />}
     </div>
   );
 }

@@ -6,6 +6,10 @@ export interface ChatMessage {
   id: string;
   role: ChatRole;
   text: string;
+  /** True while this assistant message is actively streaming in (renders a cursor). */
+  streaming?: boolean;
+  /** Creation time (ms epoch); drives understated grouped timestamps. */
+  ts?: number;
 }
 
 export type LeadFieldName = 'name' | 'email' | 'phone';
@@ -26,6 +30,12 @@ export interface ChatConfig {
   enabled: boolean;
   mode: ChatMode;
   brandName: string;
+  /** Visual layer (all optional; resolved to defaults in code). */
+  ownerName?: string;
+  assistantName?: string;
+  statusText?: string;
+  avatarInitials?: string;
+  nudgeMessage?: string;
   welcomeMessage?: string;
   captureEmail: boolean;
   ctaPhone?: string;
@@ -33,6 +43,12 @@ export interface ChatConfig {
   treeId?: string;
   /** AI mode only — used in Sprint 2. */
   knowledge?: string;
+}
+
+/** Resolved font stacks passed to the widget root (client's fontPairing). */
+export interface WidgetFonts {
+  heading: string;
+  body: string;
 }
 
 // --- Decision tree definitions -------------------------------------------
