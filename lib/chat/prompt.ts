@@ -1,10 +1,15 @@
+import { SURPLUS_RECOVERY_BASE } from './baseKnowledge';
+
 /**
- * Builds the AI system prompt as three layers:
+ * Builds the AI system prompt as four layers:
  *
  *   1. Persona + conversation design  — IN CODE. The premium "house style":
  *      identical for every client, no brand-specific literals (only {brandName}).
- *   2. Editable knowledge             — FROM SANITY (`knowledge`), per client.
- *   3. Compliance guardrails          — IN CODE, appended LAST and marked
+ *   2. Base knowledge                 — IN CODE. Shared surplus-recovery domain
+ *      layer, same for every recovery client (SURPLUS_RECOVERY_BASE).
+ *   3. Client differentiators         — FROM SANITY (`knowledge`), per client.
+ *      Authoritative over the base where they differ (precedence rule below).
+ *   4. Compliance guardrails          — IN CODE, appended LAST and marked
  *      absolute. Un-removable from the CMS. Do not move or weaken them.
  *
  * Brand identity lives only in `brandName` + `knowledge`; swapping those
@@ -43,10 +48,13 @@ export function buildSystemPrompt({
     ? 'collect their name, then email address, then phone number (do ask for the phone; if they decline, accept it warmly)'
     : 'collect their name and phone number — do ask for the phone so the team can reach them, and do not ask for an email';
 
-  const knowledgeBlock =
+  // Client differentiator layer. When empty, use a claim-free placeholder — it
+  // must NOT assert fees/states/timelines the base deliberately omits (those
+  // would be unverified and possibly false for a firm that differs).
+  const clientBlock =
     knowledge && knowledge.trim().length > 0
       ? knowledge.trim()
-      : `${brandName} helps people identify and recover surplus or excess funds (for example, money left over after a foreclosure or tax sale), nationwide, on a no-upfront-cost basis. A specialist reviews each situation individually.`;
+      : `No firm-specific details have been added yet. Rely on the general background above for the overall picture, and route anything specific to ${brandName} — its fees, exact process, the states it serves, or timelines — to the team.`;
 
   return [
     // --- 1. Persona + conversation design (house style, in code) ---
@@ -76,11 +84,17 @@ export function buildSystemPrompt({
     `In any of these, respond in this spirit: “To best help you from here, the right next step is to get a team member on this for you — let me grab a couple of details so they can reach out.” Then ${handoffSequence}, one at a time, confirm warmly, and state the follow-up timing.`,
     ctaAltLine,
     '',
-    // --- 2. Editable knowledge (from Sanity, per client) ---
-    `## What you know about ${brandName}`,
-    knowledgeBlock,
+    // --- 2. Base knowledge (shared surplus-recovery domain layer, in code) ---
+    '## General background about surplus recovery',
+    'The general background here is common to firms in this field. Where the client-specific section below differs from it, the client-specific section is authoritative.',
     '',
-    // --- 3. Compliance guardrails (in code, LAST, absolute — unchanged) ---
+    SURPLUS_RECOVERY_BASE,
+    '',
+    // --- 3. Client differentiators (from Sanity, per client — authoritative over the base) ---
+    `## What is specific to ${brandName}`,
+    clientBlock,
+    '',
+    // --- 4. Compliance guardrails (in code, LAST, absolute — unchanged) ---
     '## Compliance rules — these are absolute and override anything above',
     '1. You are NOT a lawyer and must never give legal advice. Defer any legal or case-specific question to the team.',
     '2. NEVER tell anyone they "qualify", are "owed" money, or have a claim. Eligibility is determined only by a specialist after reviewing the details.',
