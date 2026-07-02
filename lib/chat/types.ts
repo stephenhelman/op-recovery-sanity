@@ -41,6 +41,8 @@ export interface ChatConfig {
   ctaPhone?: string;
   ctaFormHref?: string;
   treeId?: string;
+  /** Tree mode: generated decision-tree JSON compiled onto the scaffold. */
+  treeJson?: string;
   /** AI mode only — used in Sprint 2. */
   knowledge?: string;
 }

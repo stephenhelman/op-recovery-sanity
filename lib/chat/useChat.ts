@@ -10,7 +10,7 @@ import {
   submitCapture,
   skipCapture,
 } from './tree';
-import { getTree } from './trees';
+import { resolveTree } from './trees';
 import { extractLead } from './extract';
 
 const AI_FALLBACK =
@@ -146,7 +146,7 @@ export function useChat(config: ChatConfig): UseChat {
       return;
     }
 
-    const tree = getTree(config.treeId);
+    const tree = resolveTree(config);
     const step = startTree(tree);
     setEngine(step.state);
     setMessages([...intro, ...botLines(step.say)]);

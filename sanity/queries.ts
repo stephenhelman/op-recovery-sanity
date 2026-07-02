@@ -65,6 +65,7 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     captureEmail,
     ctaFormHref,
     treeId,
+    treeJson,
     knowledge,
     facebookEnabled,
     whatsappEnabled,

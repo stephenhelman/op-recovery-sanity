@@ -108,6 +108,15 @@ export default defineType({
       hidden: ({ parent }: ModeParent) => parent?.mode === 'ai',
     }),
     defineField({
+      name: 'treeJson',
+      title: 'Decision Tree JSON (generated)',
+      type: 'text',
+      rows: 20,
+      description:
+        'Paste the generated decision-tree JSON (menu + content nodes) here. Leave blank to use the built-in default flow. It is validated when the widget loads — invalid JSON safely falls back to the default flow, so a bad paste never breaks the bot.',
+      hidden: ({ parent }: ModeParent) => parent?.mode === 'ai',
+    }),
+    defineField({
       name: 'knowledge',
       title: 'AI Knowledge Base',
       type: 'text',

@@ -165,6 +165,7 @@ export interface ChatWidget {
   ctaPhone?: string;
   ctaFormHref?: string;
   treeId?: string;
+  treeJson?: string;
   knowledge?: string;
   // Phase 2 (Meta) — present but unused by the widget
   facebookEnabled?: boolean;

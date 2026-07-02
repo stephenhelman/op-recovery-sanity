@@ -47,6 +47,7 @@ export default async function Home() {
         ctaPhone: chatWidgetData.ctaPhone,
         ctaFormHref: chatWidgetData.ctaFormHref,
         treeId: chatWidgetData.treeId,
+        treeJson: chatWidgetData.treeJson,
         knowledge: chatWidgetData.knowledge,
       }
     : null;
