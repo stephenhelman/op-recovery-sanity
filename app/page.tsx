@@ -8,6 +8,7 @@ import { ServiceBlocksWrapper } from "@/components/sections/ServiceBlock";
 import ChatWidget from "@/components/chat/ChatWidget";
 import { Section, ServiceBlock, HeroSection, ChatWidget as ChatWidgetData } from "@/types/content";
 import { ChatConfig } from "@/lib/chat/types";
+import { isEnabled } from "@/lib/features";
 
 export const revalidate = 60;
 
@@ -118,11 +119,20 @@ export default async function Home() {
           );
         }
         return (
-          <SectionRenderer key={idx} section={section as Section} altBg={altBg} />
+          <SectionRenderer
+            key={idx}
+            section={section as Section}
+            altBg={altBg}
+            stateKnowledgeBase={isEnabled(content.siteConfig.features, 'stateKnowledgeBase')}
+          />
         );
       })}
       <Footer config={content.siteConfig} />
-      {chatConfig?.enabled && <ChatWidget config={chatConfig} colors={colors} fonts={fonts} />}
+      {/* The chat widget is a page section — toggled by its own `enabled` field
+          on the chatWidget section, not by a site-wide feature flag. */}
+      {chatConfig?.enabled && (
+        <ChatWidget config={chatConfig} colors={colors} fonts={fonts} />
+      )}
     </div>
   );
 }

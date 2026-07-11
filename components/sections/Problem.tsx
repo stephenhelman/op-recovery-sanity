@@ -1,4 +1,5 @@
 import { ProblemSection } from '@/types/content';
+import { Reveal } from '@/components/motion/Reveal';
 
 export default function Problem({ data }: { data: ProblemSection }) {
   return (
@@ -6,7 +7,7 @@ export default function Problem({ data }: { data: ProblemSection }) {
       className="py-16 md:py-24 px-6"
       style={{ color: 'var(--color-text)' }}
     >
-      <div className="max-w-3xl mx-auto">
+      <Reveal className="max-w-3xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
@@ -54,7 +55,7 @@ export default function Problem({ data }: { data: ProblemSection }) {
             )}
           </>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -7,6 +7,20 @@ export interface TemplateColors {
 
 export type FontPairing = 'authority' | 'professional' | 'modern' | 'clean';
 
+/**
+ * A "feature" is anything that changes the STRUCTURE of the site — adds a page
+ * or splits sections into their own routes.
+ *   stateKnowledgeBase → adds /states
+ *   crmLite            → adds the lead dashboard
+ *   (multipage, when built, splits sections into pages → a feature)
+ * Content toggles (chat section `enabled`) and lead-delivery channels
+ * (Sheets/GHL, via formAction) are NOT features — they live on their section.
+ */
+export interface SiteFeatures {
+  stateKnowledgeBase?: boolean;
+  crmLite?: boolean;
+}
+
 export interface SiteConfig {
   companyName: string;
   tagline: string;
@@ -16,15 +30,22 @@ export interface SiteConfig {
   contactEmail: string;
   colors: TemplateColors;
   fontPairing: FontPairing;
+  navCta?: string;
+  // Nav link labels are per-section (`navLabel`), not on siteConfig — single
+  // source of truth. Nav anchors live in code (lib/navSections.ts).
+  features?: SiteFeatures;
 }
 
 export interface HeroSection {
   _type: 'heroSection';
   variant?: string;
   headline: string;
+  headlineAccent?: string;
   subheadline: string;
   ctaText: string;
   ctaNote?: string;
+  backgroundImage?: string;
+  overlayOpacity?: number;
 }
 
 export interface ProblemSection {
@@ -46,6 +67,7 @@ export interface ImpactNumbers {
 export interface ServiceBlock {
   _type: 'serviceBlock';
   variant?: string;
+  navLabel?: string;
   heading: string;
   body: string;
   listTitle?: string;
@@ -56,6 +78,7 @@ export interface ServiceBlock {
 export interface HowItWorks {
   _type: 'howItWorks';
   variant?: string;
+  navLabel?: string;
   heading: string;
   steps: { title: string; description: string }[];
 }
@@ -72,6 +95,7 @@ export interface WhyChooseUs {
 export interface StatesServed {
   _type: 'statesServed';
   variant?: string;
+  navLabel?: string;
   heading: string;
   states: string[];
 }
@@ -79,6 +103,7 @@ export interface StatesServed {
 export interface AboutSection {
   _type: 'aboutSection';
   variant?: string;
+  navLabel?: string;
   heading: string;
   body: string;
 }
@@ -86,6 +111,7 @@ export interface AboutSection {
 export interface FaqSection {
   _type: 'faqSection';
   variant?: string;
+  navLabel?: string;
   items: { question: string; answer: string }[];
 }
 
@@ -100,6 +126,7 @@ export type FormField = TextField | EmailField | PhoneField | DropdownField | Te
 export interface ContactForm {
   _type: 'contactForm';
   variant?: string;
+  navLabel?: string;
   heading: string;
   subheading: string;
   submitText: string;
@@ -110,7 +137,9 @@ export interface ContactForm {
     replyToEmail?: string;
     fromName?: string;
     fromEmail?: string;
-    formAction?: 'email' | 'email+sheets' | 'email+ghl' | 'email+sheets+ghl';
+    // Multi-select lead-delivery channels. `string` is tolerated for legacy
+    // content that stored the old '+'-joined value (e.g. 'email+sheets').
+    formAction?: ('email' | 'sheets' | 'crm-lite' | 'ghl')[] | string;
     googleWebhookUrl?: string;
     ghlApiKey?: string;
     ghlPipelineId?: string;
@@ -173,6 +202,24 @@ export interface ChatWidget {
   whatsappNumber?: string;
 }
 
+export interface TeamMember {
+  name: string;
+  title: string;
+  photo?: string | null;
+  bio: string;
+  bilingualNote?: string;
+  phone?: string;
+  email?: string;
+}
+
+export interface TeamSection {
+  _type: 'teamSection';
+  variant?: 'team-single' | 'team-grid';
+  heading: string;
+  subheading?: string;
+  members: TeamMember[];
+}
+
 export type Section =
   | HeroSection
   | ProblemSection
@@ -187,7 +234,8 @@ export type Section =
   | DisclaimerSection
   | StepsSection
   | CtaSection
-  | ChatWidget;
+  | ChatWidget
+  | TeamSection;
 
 export interface SiteContent {
   siteConfig: SiteConfig;

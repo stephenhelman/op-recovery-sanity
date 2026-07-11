@@ -13,6 +13,7 @@ import disclaimer from './sections/disclaimer';
 import stepsSection from './sections/stepsSection';
 import ctaSection from './sections/ctaSection';
 import chatWidget from './sections/chatWidget';
+import team from './sections/team';
 
 export const schemaTypes = [
   siteConfig,
@@ -35,4 +36,5 @@ export const schemaTypes = [
   stepsSection,
   ctaSection,
   chatWidget,
+  team,
 ];

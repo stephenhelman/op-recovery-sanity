@@ -1,4 +1,5 @@
 import { ServiceBlock } from '@/types/content';
+import { RevealGroup, RevealItem } from '@/components/motion/Reveal';
 
 function ServiceCards({ data }: { data: ServiceBlock }) {
   return (
@@ -107,23 +108,27 @@ export function ServiceBlocksWrapper({ blocks }: { blocks: ServiceBlock[] }) {
 
   if (variant === 'service-list') {
     return (
-      <section className="py-16 md:py-24 px-6">
-        <div className="max-w-5xl mx-auto space-y-6">
+      <section id="services" className="py-16 md:py-24 px-6 scroll-mt-20">
+        <RevealGroup stagger={0.15} className="max-w-5xl mx-auto space-y-6">
           {blocks.map((block, i) => (
-            <ServiceList key={i} data={block} />
+            <RevealItem key={i}>
+              <ServiceList data={block} />
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </section>
     );
   }
 
   return (
-    <section className="py-16 md:py-24 px-6">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+    <section id="services" className="py-16 md:py-24 px-6 scroll-mt-20">
+      <RevealGroup stagger={0.15} className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
         {blocks.map((block, i) => (
-          <ServiceCards key={i} data={block} />
+          <RevealItem key={i}>
+            <ServiceCards data={block} />
+          </RevealItem>
         ))}
-      </div>
+      </RevealGroup>
     </section>
   );
 }

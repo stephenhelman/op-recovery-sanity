@@ -1,6 +1,7 @@
 'use client';
 
 import { StepsSection } from '@/types/content';
+import { RevealGroup, RevealItem } from '@/components/motion/Reveal';
 
 export default function StepsNumbered({ data }: { data: StepsSection }) {
   const scrollToContact = () => {
@@ -27,7 +28,8 @@ export default function StepsNumbered({ data }: { data: StepsSection }) {
           <div className="mb-12 w-12 h-[3px] mx-auto" style={{ backgroundColor: 'var(--color-accent)' }} />
         )}
 
-        <div
+        <RevealGroup
+          stagger={0.12}
           className={
             data.steps.length === 3
               ? 'grid grid-cols-1 sm:grid-cols-3 gap-8'
@@ -35,7 +37,7 @@ export default function StepsNumbered({ data }: { data: StepsSection }) {
           }
         >
           {data.steps.map((step, i) => (
-            <div key={i} className="flex flex-col items-start gap-3">
+            <RevealItem key={i} className="flex flex-col items-start gap-3">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold flex-shrink-0"
                 style={{
@@ -55,9 +57,9 @@ export default function StepsNumbered({ data }: { data: StepsSection }) {
               <p className="opacity-75 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                 {step.description}
               </p>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
 
         {data.ctaType === 'phone' && data.ctaPhone && (
           <div className="mt-10 text-center">

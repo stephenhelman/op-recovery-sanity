@@ -8,7 +8,6 @@ export const ALL_STATES: string[] = [
   'Delaware',
   'Florida',
   'Georgia',
-  'Hawaii',
   'Idaho',
   'Illinois',
   'Indiana',

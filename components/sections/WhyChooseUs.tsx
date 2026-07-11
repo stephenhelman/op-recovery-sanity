@@ -1,9 +1,10 @@
 import { WhyChooseUs } from '@/types/content';
+import { Reveal } from '@/components/motion/Reveal';
 
 function ListBullets({ data }: { data: WhyChooseUs }) {
   return (
     <section className="py-16 md:py-24 px-6" style={{ color: 'var(--color-text)' }}>
-      <div className="max-w-3xl mx-auto">
+      <Reveal className="max-w-3xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
@@ -44,7 +45,7 @@ function ListBullets({ data }: { data: WhyChooseUs }) {
             ))}
           </div>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -52,7 +53,7 @@ function ListBullets({ data }: { data: WhyChooseUs }) {
 function ListChecks({ data }: { data: WhyChooseUs }) {
   return (
     <section className="py-16 md:py-24 px-6" style={{ color: 'var(--color-text)' }}>
-      <div className="max-w-3xl mx-auto">
+      <Reveal className="max-w-3xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
@@ -106,7 +107,7 @@ function ListChecks({ data }: { data: WhyChooseUs }) {
             ))}
           </div>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -114,7 +115,7 @@ function ListChecks({ data }: { data: WhyChooseUs }) {
 function ListCards({ data }: { data: WhyChooseUs }) {
   return (
     <section className="py-16 md:py-24 px-6" style={{ color: 'var(--color-text)' }}>
-      <div className="max-w-3xl mx-auto">
+      <Reveal className="max-w-3xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
@@ -152,7 +153,7 @@ function ListCards({ data }: { data: WhyChooseUs }) {
             ))}
           </div>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }

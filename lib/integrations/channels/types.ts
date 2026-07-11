@@ -16,11 +16,18 @@ export interface EmailColors {
   text: string;
 }
 
+export type FormChannel = 'email' | 'sheets' | 'crm-lite' | 'ghl';
+
 export interface FormSettings {
   replyToEmail?: string;
   fromName?: string;
   fromEmail?: string;
-  formAction?: 'email' | 'email+sheets' | 'email+ghl' | 'email+sheets+ghl';
+  /**
+   * Multi-select lead-delivery channels. New content stores an array
+   * (e.g. ['email','sheets']); legacy content may still hold the old
+   * '+'-joined string (e.g. 'email+sheets') — normalized in the channel registry.
+   */
+  formAction?: FormChannel[] | string;
   googleWebhookUrl?: string;
   ghlApiKey?: string;
   ghlPipelineId?: string;

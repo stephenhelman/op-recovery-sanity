@@ -1,6 +1,10 @@
 import { SiteContent } from '@/types/content';
 import { ALL_STATES } from './statesData';
 
+// Premium default template. This is what a BRAND-NEW deployment renders when its
+// Sanity project is empty. Existing clients are unaffected: mergeContent() uses
+// Sanity's sections whenever they're present, so these defaults never override
+// live content (they only fill a truly empty project).
 export const defaultContent: SiteContent = {
   siteConfig: {
     companyName: 'Your Company Name',
@@ -8,17 +12,24 @@ export const defaultContent: SiteContent = {
     logo: null,
     contactEmail: 'contact@yourcompany.com',
     colors: {
-      primary: '#DABD59',
-      accent: '#FFFFFF',
-      background: '#0A0A0A',
-      text: '#FFFFFF',
+      primary: '#1B2A4A',
+      accent: '#C8963A',
+      background: '#F8F7F4',
+      text: '#1B2A4A',
     },
-    fontPairing: 'authority',
+    fontPairing: 'professional',
+    navCta: 'Check If You’re Owed Money',
+    features: {
+      stateKnowledgeBase: false,
+      crmLite: false,
+    },
   },
   sections: [
     {
       _type: 'heroSection',
-      variant: 'hero-centered',
+      variant: 'hero-photo',
+      // No backgroundImage → HeroPhoto falls back to the bundled placeholder.
+      overlayOpacity: 60,
       headline: 'You May Be Owed Money From a Property Sale or Foreclosure',
       subheadline:
         'We identify unclaimed surplus funds and guide you through the claims process — nationwide, at no upfront cost.',
@@ -32,6 +43,40 @@ export const defaultContent: SiteContent = {
         { value: '45+', label: 'States We Operate In' },
         { value: '120', label: 'Average Days to Complete a Claim' },
         { value: '0', label: 'Upfront Cost to You' },
+      ],
+    },
+    {
+      _type: 'problemSection',
+      variant: 'problem-simple',
+      heading: 'What No One Tells You About Surplus Funds',
+      body:
+        'When a property sells at foreclosure or tax sale for more than what was owed, the difference — the surplus — legally belongs to the former owner or their heirs. Most people never find out.',
+      bullets: [
+        { point: 'Counties are not required to track you down.' },
+        { point: 'Deadlines to claim vary by state and can pass quietly.' },
+        { point: 'Third parties may try to claim funds that are rightfully yours.' },
+      ],
+    },
+    {
+      _type: 'serviceBlock',
+      variant: 'service-cards',
+      heading: 'Mortgage Foreclosure Surplus Recovery',
+      body: 'If your home sold at a foreclosure auction for more than your mortgage balance, you may be entitled to the surplus.',
+      bullets: [
+        { point: 'Free case research at no cost to you' },
+        { point: 'We prepare and file all documentation' },
+        { point: 'Contingency-based — you pay nothing upfront' },
+      ],
+    },
+    {
+      _type: 'serviceBlock',
+      variant: 'service-cards',
+      heading: 'Tax Lien & Tax Deed Surplus Recovery',
+      body: 'When a property is sold for unpaid taxes, any amount above the taxes owed may be recoverable by the prior owner.',
+      bullets: [
+        { point: 'Nationwide coverage across 45+ states' },
+        { point: 'Clear communication at every step' },
+        { point: 'Funds released directly to you' },
       ],
     },
     {
@@ -51,8 +96,32 @@ export const defaultContent: SiteContent = {
         },
         {
           title: 'You Get Paid',
-          description:
-            'Once the claim is approved, surplus funds are released directly to you.',
+          description: 'Once the claim is approved, surplus funds are released directly to you.',
+        },
+      ],
+    },
+    {
+      _type: 'whyChooseUs',
+      variant: 'list-checks',
+      heading: 'Why Work With Us',
+      bullets: [
+        { point: 'No upfront cost — we only get paid when you do' },
+        { point: 'Experienced guidance through a complex process' },
+        { point: 'Transparent, honest communication throughout' },
+        { point: 'Nationwide reach with local knowledge' },
+      ],
+    },
+    {
+      _type: 'teamSection',
+      variant: 'team-single',
+      heading: 'A Trusted Guide',
+      subheading: 'Real people, here to help you recover what’s yours.',
+      members: [
+        {
+          name: 'Your Name',
+          title: 'Founder',
+          photo: null, // → bundled placeholder headshot until a real photo is added
+          bio: 'Add a short bio here introducing yourself and your commitment to helping property owners recover their surplus funds.',
         },
       ],
     },
@@ -104,12 +173,6 @@ export const defaultContent: SiteContent = {
       ],
     },
     {
-      _type: 'aboutSection',
-      variant: 'about-centered',
-      heading: 'A Trusted Guide Through a Complex Process',
-      body: 'We are a nationwide asset recovery firm helping property owners and heirs claim funds they are legally owed from foreclosure and tax deed proceedings. We work on a contingency basis — you pay nothing until we recover your funds.',
-    },
-    {
       _type: 'contactForm',
       variant: 'contact-stacked',
       heading: 'Find Out If Money Is Owed to You',
@@ -122,6 +185,12 @@ export const defaultContent: SiteContent = {
         { _type: 'phoneField', label: 'Phone Number', required: false },
         { _type: 'textareaField', label: 'Message', required: false },
       ],
+    },
+    {
+      _type: 'disclaimerSection',
+      variant: 'disclaimer-simple',
+      body:
+        'This company is not a law firm and does not provide legal advice. Results vary based on individual circumstances and jurisdiction.',
     },
   ],
 };

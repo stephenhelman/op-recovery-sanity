@@ -20,8 +20,17 @@ function howItWorksToSteps(data: HowItWorks): StepsSection {
 export default function HowItWorksSection({ data }: { data: HowItWorks }) {
   const stepsData = howItWorksToSteps(data);
 
-  if (data.variant === 'steps-timeline') {
-    return <StepsTimeline data={stepsData} />;
-  }
-  return <StepsNumbered data={stepsData} />;
+  // The `#process` nav anchor. The real <section> is rendered by the steps
+  // child; those components are shared with the standalone `stepsSection` type,
+  // so the id lives on this wrapper rather than inside them (avoids a duplicate
+  // #process anchor when a page uses both). scroll-mt clears the fixed nav.
+  return (
+    <div id="process" className="scroll-mt-20">
+      {data.variant === 'steps-timeline' ? (
+        <StepsTimeline data={stepsData} />
+      ) : (
+        <StepsNumbered data={stepsData} />
+      )}
+    </div>
+  );
 }

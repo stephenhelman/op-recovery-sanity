@@ -72,6 +72,12 @@ const contactForm = defineType({
       },
       initialValue: 'contact-stacked',
     }),
+    defineField({
+      name: 'navLabel',
+      title: 'Nav Label (optional)',
+      type: 'string',
+      description: 'Overrides this section’s label in the sticky nav. Leave blank to use the default.',
+    }),
     defineField({ name: 'heading', title: 'Heading', type: 'string' }),
     defineField({ name: 'subheading', title: 'Subheading', type: 'string' }),
     defineField({ name: 'submitText', title: 'Submit Button Text', type: 'string' }),
@@ -114,25 +120,26 @@ const contactForm = defineType({
         }),
         defineField({
           name: 'formAction',
-          title: 'Form Action',
-          type: 'string',
+          title: 'Send Lead To',
+          description: 'Where each submission is delivered. Pick any combination — keep Email on for notifications.',
+          type: 'array',
+          of: [{ type: 'string' }],
           options: {
             list: [
-              { title: 'Email Only', value: 'email' },
-              { title: 'Email + Google Sheets', value: 'email+sheets' },
-              { title: 'Email + GHL', value: 'email+ghl' },
-              { title: 'Email + Sheets + GHL', value: 'email+sheets+ghl' },
+              { title: 'Email', value: 'email' },
+              { title: 'Google Sheets', value: 'sheets' },
+              { title: 'CRM Lite', value: 'crm-lite' },
+              { title: 'GoHighLevel (GHL)', value: 'ghl' },
             ],
-            layout: 'radio',
           },
-          initialValue: 'email',
+          initialValue: ['email'],
         }),
         defineField({
           name: 'googleWebhookUrl',
           title: 'Google Sheets Webhook URL',
           type: 'string',
           description: 'Paste the Google Apps Script webhook URL here. See setup instructions.',
-          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+          hidden: ({ parent }: { parent: { formAction?: string | string[] } }) =>
             !parent?.formAction?.includes('sheets'),
         }),
         defineField({
@@ -140,7 +147,7 @@ const contactForm = defineType({
           title: 'GHL API Key',
           type: 'string',
           description: 'Your GoHighLevel API key from Settings → Integrations.',
-          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+          hidden: ({ parent }: { parent: { formAction?: string | string[] } }) =>
             !parent?.formAction?.includes('ghl'),
         }),
         defineField({
@@ -148,7 +155,7 @@ const contactForm = defineType({
           title: 'GHL Pipeline ID',
           type: 'string',
           description: 'Optional. The pipeline to add this lead to.',
-          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+          hidden: ({ parent }: { parent: { formAction?: string | string[] } }) =>
             !parent?.formAction?.includes('ghl'),
         }),
         defineField({
@@ -156,7 +163,7 @@ const contactForm = defineType({
           title: 'GHL Stage ID',
           type: 'string',
           description: 'Optional. The stage within the pipeline.',
-          hidden: ({ parent }: { parent: { formAction?: string } }) =>
+          hidden: ({ parent }: { parent: { formAction?: string | string[] } }) =>
             !parent?.formAction?.includes('ghl'),
         }),
       ],

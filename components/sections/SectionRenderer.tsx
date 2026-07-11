@@ -17,6 +17,7 @@ import StepsTimeline from './steps/StepsTimeline';
 import CtaPhone from './cta/CtaPhone';
 import CtaButton from './cta/CtaButton';
 import CtaBanner from './cta/CtaBanner';
+import Team from './TeamSection';
 
 function resolveVariant(section: Section): string {
   return (section as { variant?: string }).variant ?? defaultVariants[section._type] ?? '';
@@ -27,11 +28,13 @@ export default function SectionRenderer({
   altBg,
   logo,
   companyName,
+  stateKnowledgeBase,
 }: {
   section: Section;
   altBg?: boolean;
   logo?: string | null;
   companyName?: string;
+  stateKnowledgeBase?: boolean;
 }) {
   const isFixed =
     section._type === 'heroSection' ||
@@ -60,7 +63,7 @@ export default function SectionRenderer({
         return <WhyChooseUs data={section} />;
 
       case 'statesServed':
-        return <StatesServed data={section} />;
+        return <StatesServed data={section} stateKnowledgeBase={stateKnowledgeBase} />;
 
       case 'aboutSection':
         return <About data={section} />;
@@ -73,6 +76,9 @@ export default function SectionRenderer({
 
       case 'disclaimerSection':
         return <Disclaimer data={section} />;
+
+      case 'teamSection':
+        return <Team data={section} />;
 
       case 'stepsSection': {
         const v = resolveVariant(section);

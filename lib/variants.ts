@@ -2,6 +2,7 @@ export const sectionVariants: Record<string, { value: string; label: string }[]>
   heroSection: [
     { value: 'hero-centered', label: 'Centered' },
     { value: 'hero-split', label: 'Split' },
+    { value: 'hero-photo', label: 'Photo' },
   ],
   stepsSection: [
     { value: 'steps-cards', label: 'Cards' },
@@ -44,6 +45,10 @@ export const sectionVariants: Record<string, { value: string; label: string }[]>
     { value: 'steps-numbered', label: 'Numbered' },
     { value: 'steps-timeline', label: 'Timeline' },
   ],
+  teamSection: [
+    { value: 'team-single', label: 'Single' },
+    { value: 'team-grid', label: 'Grid' },
+  ],
 };
 
 export const defaultVariants: Record<string, string> = {
@@ -60,4 +65,5 @@ export const defaultVariants: Record<string, string> = {
   problemSection: 'problem-simple',
   statesServed: 'states-pills',
   disclaimerSection: 'disclaimer-simple',
+  teamSection: 'team-single',
 };

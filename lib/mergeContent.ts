@@ -29,6 +29,11 @@ function mergeSiteConfig(
     contactEmail: sanityCfg.contactEmail || defaultCfg.contactEmail,
     colors: mergeColors(sanityCfg.colors, defaultCfg.colors),
     fontPairing: sanityCfg.fontPairing || defaultCfg.fontPairing,
+    navCta: sanityCfg.navCta || defaultCfg.navCta,
+    // Feature flags: Sanity wins per-key, falling back to defaults. Must be
+    // carried through — dropping it silently disables every feature toggle
+    // (state knowledge base, etc.).
+    features: { ...defaultCfg.features, ...sanityCfg.features },
   };
 }
 

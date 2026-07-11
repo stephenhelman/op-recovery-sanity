@@ -1,9 +1,10 @@
 import { AboutSection } from '@/types/content';
+import { Reveal } from '@/components/motion/Reveal';
 
 function AboutCentered({ data }: { data: AboutSection }) {
   return (
-    <section className="py-16 md:py-24 px-6" style={{ color: 'var(--color-text)' }}>
-      <div className="max-w-3xl mx-auto text-center">
+    <section id="about" className="py-16 md:py-24 px-6 scroll-mt-20" style={{ color: 'var(--color-text)' }}>
+      <Reveal className="max-w-3xl mx-auto text-center">
         <h2
           className="text-3xl sm:text-4xl font-bold"
           style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
@@ -17,15 +18,15 @@ function AboutCentered({ data }: { data: AboutSection }) {
         >
           {data.body}
         </p>
-      </div>
+      </Reveal>
     </section>
   );
 }
 
 function AboutSplit({ data }: { data: AboutSection }) {
   return (
-    <section className="py-16 md:py-24 px-6" style={{ color: 'var(--color-text)' }}>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <section id="about" className="py-16 md:py-24 px-6 scroll-mt-20" style={{ color: 'var(--color-text)' }}>
+      <Reveal className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Left — heading and body */}
         <div>
           <h2
@@ -61,7 +62,7 @@ function AboutSplit({ data }: { data: AboutSection }) {
             Contingency — No Upfront Cost
           </span>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

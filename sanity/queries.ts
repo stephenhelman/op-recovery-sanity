@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { client } from './client';
 import { SiteContent } from '@/types/content';
 
@@ -10,10 +11,14 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
   contactEmail,
   colors,
   fontPairing,
+  navCta,
+  navLinks,
+  features,
   "sections": sections[]{
     _type,
     _key,
     variant,
+    navLabel,
     // heroSection
     headline,
     headlineAccent,
@@ -22,6 +27,8 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     ctaNote,
     ctaPhone,
     ctaType,
+    "backgroundImage": backgroundImage.asset->url,
+    overlayOpacity,
     // problemSection / serviceBlock / aboutSection / whyChooseUs
     heading,
     body,
@@ -37,6 +44,16 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     states,
     // faqSection
     items,
+    // teamSection
+    members[]{
+      name,
+      title,
+      "photo": photo.asset->url,
+      bio,
+      bilingualNote,
+      phone,
+      email,
+    },
     // contactForm
     subheading,
     submitText,
@@ -73,16 +90,20 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
   }
 }`;
 
-export async function getSiteContent(): Promise<Partial<SiteContent> | null> {
-  try {
-    const raw = await client.fetch(SITE_CONTENT_QUERY);
-    if (!raw) return null;
-    const { sections, ...configFields } = raw;
-    return {
-      siteConfig: configFields,
-      sections: sections || [],
-    };
-  } catch {
-    return null;
+// Wrapped in React `cache` so the layout-level <Nav> and the page can each call
+// getSiteContent() within one render pass and share a single Sanity fetch.
+export const getSiteContent = cache(
+  async (): Promise<Partial<SiteContent> | null> => {
+    try {
+      const raw = await client.fetch(SITE_CONTENT_QUERY);
+      if (!raw) return null;
+      const { sections, ...configFields } = raw;
+      return {
+        siteConfig: configFields,
+        sections: sections || [],
+      };
+    } catch {
+      return null;
+    }
   }
-}
+);

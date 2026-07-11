@@ -64,7 +64,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 function FaqAccordion({ data }: { data: FaqSection }) {
   return (
-    <section className="py-16 md:py-24 px-6">
+    <section id="faq" className="py-16 md:py-24 px-6 scroll-mt-20">
       <div className="max-w-3xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center"
@@ -85,7 +85,7 @@ function FaqAccordion({ data }: { data: FaqSection }) {
 
 function FaqGrid({ data }: { data: FaqSection }) {
   return (
-    <section className="py-16 md:py-24 px-6">
+    <section id="faq" className="py-16 md:py-24 px-6 scroll-mt-20">
       <div className="max-w-5xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center"

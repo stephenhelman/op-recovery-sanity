@@ -170,7 +170,7 @@ function FormCore({
 
 function ContactStacked({ data }: { data: ContactForm }) {
   return (
-    <section id="contact" className="py-16 md:py-24 px-6">
+    <section id="contact" className="py-16 md:py-24 px-6 scroll-mt-20">
       <div className="max-w-2xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center"
@@ -195,7 +195,7 @@ function ContactStacked({ data }: { data: ContactForm }) {
 
 function ContactSplit({ data }: { data: ContactForm }) {
   return (
-    <section id="contact" className="py-16 md:py-24 px-6">
+    <section id="contact" className="py-16 md:py-24 px-6 scroll-mt-20">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         {/* Left — company info */}
         <div>
@@ -231,7 +231,7 @@ function ContactMinimal({ data }: { data: ContactForm }) {
   );
 
   return (
-    <section id="contact" className="py-16 md:py-24 px-6">
+    <section id="contact" className="py-16 md:py-24 px-6 scroll-mt-20">
       <div className="max-w-2xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center"
