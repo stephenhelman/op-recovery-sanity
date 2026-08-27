@@ -62,7 +62,7 @@ function TeamSingle({ data }: { data: TeamSection }) {
             <img
               src={member.photo || PLACEHOLDER_PHOTO}
               alt={member.name}
-              className="w-full max-w-[280px] mx-auto aspect-square object-cover rounded-2xl"
+              className="w-full max-w-[280px] mx-auto h-auto object-contain rounded-2xl"
             />
             <div>
               <h3
@@ -116,7 +116,7 @@ function TeamGrid({ data }: { data: TeamSection }) {
                 <img
                   src={member.photo || PLACEHOLDER_PHOTO}
                   alt={member.name}
-                  className="w-32 h-32 mx-auto aspect-square object-cover rounded-full"
+                  className="w-full max-w-[200px] mx-auto h-auto object-contain rounded-2xl"
                 />
                 <h3
                   className="mt-4 text-xl font-bold"
