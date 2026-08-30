@@ -122,7 +122,7 @@ export default function LeadInbox({
             {ownerEmail && <p className="text-xs opacity-60 mt-1">Signed in as {ownerEmail}</p>}
           </div>
           <button
-            onClick={() => signOut({ callbackUrl: '/app/sign-in' })}
+            onClick={() => signOut({ callbackUrl: '/sign-in' })}
             className="text-xs font-medium underline underline-offset-2 opacity-70 hover:opacity-100"
           >
             Sign out

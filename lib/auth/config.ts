@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/app/sign-in',
+    signIn: '/sign-in',
   },
   callbacks: {
     // Defense-in-depth: even if a token were somehow minted or used outside
