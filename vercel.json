@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "app.northstaroverages.com" }],
+      "destination": "/app"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "app.northstaroverages.com" }],
+      "destination": "/app/:path*"
+    }
+  ]
+}

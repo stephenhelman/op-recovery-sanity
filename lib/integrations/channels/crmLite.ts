@@ -1,17 +1,28 @@
+import { getMongoDb } from '@/lib/mongo';
 import { LeadPayload, ChannelConfig, ChannelResult } from './types';
 
 /**
- * CRM Lite delivery channel — the connection point for the separate CRM Lite
- * track (MongoDB + lead dashboard). Selecting "CRM Lite" in the Contact Form's
- * "Send Lead To" is safe today: it logs and no-ops until that track lands, so
- * no lead is silently reported as stored when it isn't.
- *
- * TODO(crm-lite): persist the lead to the CRM store once CRM Lite is built.
+ * CRM Lite delivery channel — writes a flat, self-contained lead document to
+ * the `leads` collection. No relations, no pipeline/stages (see locked
+ * decision #1) — just the captured fields + status/notes for a future inbox
+ * view to read and update in place.
  */
 export async function pushToCrmLite(
-  _payload: LeadPayload,
+  payload: LeadPayload,
   _cfg: ChannelConfig
 ): Promise<ChannelResult> {
-  console.info('[lead] crm-lite selected — CRM Lite not yet wired; lead not persisted to CRM.');
-  return { channel: 'crm-lite', ok: true, id: 'pending' };
+  const channel = 'crm-lite';
+  try {
+    const db = await getMongoDb();
+    const result = await db.collection('leads').insertOne({
+      fields: payload.fields,
+      companyName: payload.companyName,
+      submittedAt: payload.submittedAt,
+      status: 'new',
+      notes: '',
+    });
+    return { channel, ok: true, id: result.insertedId.toString() };
+  } catch (err) {
+    return { channel, ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
 }

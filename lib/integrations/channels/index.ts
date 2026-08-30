@@ -17,29 +17,52 @@ function selected(cfg: ChannelConfig): string[] {
 }
 
 /**
+ * Store channels are mutually exclusive (locked decision #3): sheets XOR
+ * crm-lite XOR ghl. If more than one is selected in `formAction`, precedence
+ * picks a single winner — ghl > crm-lite > sheets (GHL is the most
+ * "committed" integration a client would set up; CRM Lite is the
+ * always-available Mongo fallback; sheets is the base tier). Each candidate
+ * still needs its own config present to be eligible.
+ */
+const STORE_PRECEDENCE = ['ghl', 'crm-lite', 'sheets'] as const;
+
+function isStoreEligible(key: string, cfg: ChannelConfig): boolean {
+  const sel = selected(cfg);
+  if (!sel.includes(key)) return false;
+  if (key === 'sheets') return Boolean(cfg.formSettings.googleWebhookUrl);
+  if (key === 'ghl') return Boolean(cfg.formSettings.ghlApiKey);
+  return true; // crm-lite has no extra config requirement
+}
+
+function resolvedStore(cfg: ChannelConfig): string | null {
+  return STORE_PRECEDENCE.find((key) => isStoreEligible(key, cfg)) ?? null;
+}
+
+/**
  * Channel registry — plug-and-play. Add a new outbound channel by dropping a
- * `channels/<name>.ts` module and a single line here. Enable/disable is driven
- * by the Contact Form's "Send Lead To" selection (formSettings.formAction).
+ * `channels/<name>.ts` module and a single line here. Store channels are
+ * gated through `resolvedStore` so exactly one runs (locked decision #3);
+ * email is unconditional (locked decision #3 — fires regardless of tier).
  */
 export const channels: Channel[] = [
   {
     key: 'email',
-    enabled: (cfg) => selected(cfg).includes('email'),
+    enabled: () => true,
     run: sendEmail,
   },
   {
     key: 'sheets',
-    enabled: (cfg) => selected(cfg).includes('sheets') && Boolean(cfg.formSettings.googleWebhookUrl),
+    enabled: (cfg) => resolvedStore(cfg) === 'sheets',
     run: appendToSheet,
   },
   {
     key: 'crm-lite',
-    enabled: (cfg) => selected(cfg).includes('crm-lite'),
+    enabled: (cfg) => resolvedStore(cfg) === 'crm-lite',
     run: pushToCrmLite,
   },
   {
     key: 'ghl',
-    enabled: (cfg) => selected(cfg).includes('ghl') && Boolean(cfg.formSettings.ghlApiKey),
+    enabled: (cfg) => resolvedStore(cfg) === 'ghl',
     run: pushToGHL,
   },
 ];
