@@ -6,9 +6,9 @@
       "destination": "/app"
     },
     {
-      "source": "/:path*",
+      "source": "/((?!app).*)",
       "has": [{ "type": "host", "value": "app.northstaroverages.com" }],
-      "destination": "/app/:path*"
+      "destination": "/app/$1"
     }
   ]
 }
