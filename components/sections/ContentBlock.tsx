@@ -59,7 +59,7 @@ function renderItem(item: ContentItem, i: number, primaryCtaText?: string) {
         </div>
       );
 
-    case 'image':
+    case 'contentImage':
       if (!item.url) return null;
       return (
         <figure key={key} className="my-8">

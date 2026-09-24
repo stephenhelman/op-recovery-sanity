@@ -69,7 +69,7 @@ export type ContentItem =
   | { _type: 'subheading'; _key?: string; text: string }
   | { _type: 'paragraph'; _key?: string; text: string }
   | { _type: 'bullets'; _key?: string; listTitle?: string; items?: { point: string }[] }
-  | { _type: 'image'; _key?: string; url?: string; alt?: string; caption?: string }
+  | { _type: 'contentImage'; _key?: string; url?: string; alt?: string; caption?: string }
   | { _type: 'cta'; _key?: string; ctaText?: string };
 
 export interface ContentBlock {

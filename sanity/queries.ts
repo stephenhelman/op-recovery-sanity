@@ -43,7 +43,7 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
       _type == "subheading" => { text },
       _type == "paragraph" => { text },
       _type == "bullets" => { listTitle, items[]{ point } },
-      _type == "image" => { "url": asset.asset->url, alt, caption },
+      _type == "contentImage" => { "url": asset.asset->url, alt, caption },
       _type == "cta" => { ctaText },
     },
     // problemSection / serviceBlock / aboutSection / whyChooseUs

@@ -57,7 +57,7 @@ export default defineType({
           },
         },
         {
-          name: 'image',
+          name: 'contentImage',
           title: 'Image',
           type: 'object',
           fields: [
