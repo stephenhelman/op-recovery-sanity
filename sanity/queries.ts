@@ -9,6 +9,7 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
   logoHeight,
   logoWidth,
   "headerLogo": headerLogo.asset->url,
+  headerLogoBackground,
   headerLogoHeight,
   primaryCtaText,
   contactEmail,
@@ -35,7 +36,17 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     logoChipEnabled,
     logoChipColor,
     logoChipPadding,
-    // problemSection / contentBlock / serviceBlock / aboutSection / whyChooseUs
+    // contentBlock — multi-type array, each item type projected explicitly
+    content[]{
+      _type,
+      _key,
+      _type == "subheading" => { text },
+      _type == "paragraph" => { text },
+      _type == "bullets" => { listTitle, items[]{ point } },
+      _type == "image" => { "url": asset.asset->url, alt, caption },
+      _type == "cta" => { ctaText },
+    },
+    // problemSection / serviceBlock / aboutSection / whyChooseUs
     heading,
     body,
     listTitle,
@@ -48,8 +59,9 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     stepNumber,
     // statesServed
     states,
-    // faqSection
+    // faqSection (object items) / trustBar (string items)
     items,
+    subline,
     // teamSection
     members[]{
       name,

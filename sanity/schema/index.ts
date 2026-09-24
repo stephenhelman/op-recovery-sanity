@@ -15,6 +15,7 @@ import ctaSection from './sections/ctaSection';
 import chatWidget from './sections/chatWidget';
 import team from './sections/team';
 import contentBlock from './sections/contentBlock';
+import trustBar from './sections/trustBar';
 
 export const schemaTypes = [
   siteConfig,
@@ -39,4 +40,5 @@ export const schemaTypes = [
   chatWidget,
   team,
   contentBlock,
+  trustBar,
 ];

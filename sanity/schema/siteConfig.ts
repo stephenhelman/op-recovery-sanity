@@ -36,6 +36,13 @@ export default defineType({
       description: 'Display height of the nav logo in pixels. Width scales automatically. Default: 36',
       validation: (Rule) => Rule.min(20).max(120).integer(),
     }),
+    defineField({
+      name: 'headerLogoBackground',
+      title: 'Header Logo Background (optional)',
+      type: 'string',
+      description: 'Hex color (e.g. #ffffff). Puts the nav logo on a padded panel of this color so a dark logo stays visible. Leave blank for no panel.',
+      validation: (Rule) => Rule.regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, { name: 'hex color' }).warning('Use a hex color like #ffffff'),
+    }),
     defineField({ name: 'contactEmail', title: 'Contact Email', type: 'string' }),
     defineField({
       name: 'colors',
@@ -128,6 +135,7 @@ export default defineType({
         { type: 'chatWidget' },
         { type: 'teamSection' },
         { type: 'contentBlock' },
+        { type: 'trustBar' },
       ],
     }),
   ],

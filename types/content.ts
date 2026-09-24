@@ -29,6 +29,7 @@ export interface SiteConfig {
   logoWidth?: number;
   headerLogo?: string | null;
   headerLogoHeight?: number;
+  headerLogoBackground?: string;
   primaryCtaText?: string;
   contactEmail: string;
   colors: TemplateColors;
@@ -64,16 +65,26 @@ export interface ProblemSection {
   summary?: string;
 }
 
+export type ContentItem =
+  | { _type: 'subheading'; _key?: string; text: string }
+  | { _type: 'paragraph'; _key?: string; text: string }
+  | { _type: 'bullets'; _key?: string; listTitle?: string; items?: { point: string }[] }
+  | { _type: 'image'; _key?: string; url?: string; alt?: string; caption?: string }
+  | { _type: 'cta'; _key?: string; ctaText?: string };
+
 export interface ContentBlock {
   _type: 'contentBlock';
   variant?: string;
-  heading: string;
-  body?: string;
-  listTitle?: string;
-  bullets?: { point: string }[];
-  summary?: string;
-  ctaText?: string;
+  heading?: string;
+  content?: ContentItem[];
   navLabel?: string;
+}
+
+export interface TrustBar {
+  _type: 'trustBar';
+  variant?: string;
+  items: string[];
+  subline?: string;
 }
 
 export interface ImpactNumbers {
@@ -254,7 +265,8 @@ export type Section =
   | CtaSection
   | ChatWidget
   | TeamSection
-  | ContentBlock;
+  | ContentBlock
+  | TrustBar;
 
 export interface SiteContent {
   siteConfig: SiteConfig;

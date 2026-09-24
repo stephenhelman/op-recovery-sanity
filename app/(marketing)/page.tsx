@@ -71,11 +71,13 @@ export default async function Home() {
     }
   }
 
-  // Precompute alternating bg flags (hero and impactNumbers keep their own explicit bg)
+  // Precompute alternating bg flags (hero, impactNumbers and trustBar keep their own explicit bg)
   let neutralCount = 0;
   const sectionMeta = processedSections.map((section) => {
     const isFixed =
-      section._type === 'heroSection' || section._type === 'impactNumbers';
+      section._type === 'heroSection' ||
+      section._type === 'impactNumbers' ||
+      section._type === 'trustBar';
     const altBg = !isFixed && neutralCount % 2 === 1;
     if (!isFixed) neutralCount++;
     return { section, altBg };

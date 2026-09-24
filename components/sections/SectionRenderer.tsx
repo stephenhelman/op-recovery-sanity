@@ -19,6 +19,7 @@ import CtaButton from './cta/CtaButton';
 import CtaBanner from './cta/CtaBanner';
 import Team from './TeamSection';
 import ContentBlock from './ContentBlock';
+import TrustBar from './TrustBar';
 
 function resolveVariant(section: Section): string {
   return (section as { variant?: string }).variant ?? defaultVariants[section._type] ?? '';
@@ -42,6 +43,7 @@ export default function SectionRenderer({
   const isFixed =
     section._type === 'heroSection' ||
     section._type === 'impactNumbers' ||
+    section._type === 'trustBar' ||
     section._type === 'ctaSection';
 
   const rendered = (() => {
@@ -54,6 +56,9 @@ export default function SectionRenderer({
 
       case 'contentBlock':
         return <ContentBlock data={section} primaryCtaText={primaryCtaText} />;
+
+      case 'trustBar':
+        return <TrustBar data={section} />;
 
       case 'impactNumbers':
         return <ImpactNumbers data={section} />;

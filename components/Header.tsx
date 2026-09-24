@@ -104,7 +104,12 @@ export default function Header({
           src={navLogo}
           alt={siteConfig.companyName}
           className="w-auto object-contain"
-          style={{ height: `${siteConfig.headerLogoHeight ?? 36}px` }}
+          style={{
+            height: `${siteConfig.headerLogoHeight ?? 36}px`,
+            ...(siteConfig.headerLogoBackground
+              ? { backgroundColor: siteConfig.headerLogoBackground, padding: '4px 8px', borderRadius: '6px', boxSizing: 'content-box' as const }
+              : {}),
+          }}
         />
       ) : (
         <span

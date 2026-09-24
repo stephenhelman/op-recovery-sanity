@@ -37,6 +37,7 @@ export const sectionVariants: Record<string, { value: string; label: string }[]>
     { value: 'numbers-dark', label: 'Dark' },
     { value: 'numbers-light', label: 'Light' },
   ],
+  trustBar: [{ value: 'trust-minimal', label: 'Minimal' }],
   aboutSection: [
     { value: 'about-centered', label: 'Centered' },
     { value: 'about-split', label: 'Split' },
@@ -61,6 +62,7 @@ export const defaultVariants: Record<string, string> = {
   faqSection: 'faq-accordion',
   contactForm: 'contact-stacked',
   impactNumbers: 'numbers-dark',
+  trustBar: 'trust-minimal',
   aboutSection: 'about-centered',
   howItWorks: 'steps-numbered',
   problemSection: 'problem-simple',
