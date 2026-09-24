@@ -8,6 +8,9 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
   "logo": logo.asset->url,
   logoHeight,
   logoWidth,
+  "headerLogo": headerLogo.asset->url,
+  headerLogoHeight,
+  primaryCtaText,
   contactEmail,
   colors,
   fontPairing,
@@ -29,7 +32,10 @@ const SITE_CONTENT_QUERY = `*[_type == "siteConfig"][0]{
     ctaType,
     "backgroundImage": backgroundImage.asset->url,
     overlayOpacity,
-    // problemSection / serviceBlock / aboutSection / whyChooseUs
+    logoChipEnabled,
+    logoChipColor,
+    logoChipPadding,
+    // problemSection / contentBlock / serviceBlock / aboutSection / whyChooseUs
     heading,
     body,
     listTitle,

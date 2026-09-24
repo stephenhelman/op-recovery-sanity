@@ -46,5 +46,28 @@ export default defineType({
       validation: (Rule) => Rule.min(0).max(100),
       hidden: ({ parent }: { parent?: { variant?: string } }) => parent?.variant !== 'hero-photo',
     }),
+    defineField({
+      name: 'logoChipEnabled',
+      title: 'Logo Backdrop Chip',
+      type: 'boolean',
+      description: 'Puts the logo on a solid panel so a dark logo stays readable on the photo. On by default for the Photo variant.',
+      hidden: ({ parent }: { parent?: { variant?: string } }) => parent?.variant !== 'hero-photo',
+    }),
+    defineField({
+      name: 'logoChipColor',
+      title: 'Logo Chip Color (hex)',
+      type: 'string',
+      description: 'Panel color behind the logo. Default #ffffff.',
+      validation: (Rule) => Rule.regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, { name: 'hex color' }).warning('Use a hex color like #ffffff'),
+      hidden: ({ parent }: { parent?: { variant?: string } }) => parent?.variant !== 'hero-photo',
+    }),
+    defineField({
+      name: 'logoChipPadding',
+      title: 'Logo Chip Padding (px)',
+      type: 'number',
+      description: 'Space between the logo and the panel edge. Default 16.',
+      validation: (Rule) => Rule.min(0).max(64).integer(),
+      hidden: ({ parent }: { parent?: { variant?: string } }) => parent?.variant !== 'hero-photo',
+    }),
   ],
 });

@@ -87,6 +87,57 @@ function TeamSingle({ data }: { data: TeamSection }) {
   );
 }
 
+function TeamFeature({ data }: { data: TeamSection }) {
+  const member = data.members?.[0];
+  return (
+    <section className="py-16 md:py-24 px-6" style={{ color: 'var(--color-text)' }}>
+      <Reveal className="max-w-6xl mx-auto">
+        <div className="text-center mb-12">
+          <h2
+            className="text-3xl sm:text-4xl font-bold"
+            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+          >
+            {data.heading}
+          </h2>
+          <div className="mt-3 w-12 h-[3px] mx-auto" style={{ backgroundColor: 'var(--color-accent)' }} />
+          {data.subheading && (
+            <p className="mt-4 text-base sm:text-lg opacity-80" style={{ fontFamily: 'var(--font-body)' }}>
+              {data.subheading}
+            </p>
+          )}
+        </div>
+
+        {member && (
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,440px)_1fr] gap-8 md:gap-14 items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={member.photo || PLACEHOLDER_PHOTO}
+              alt={member.name}
+              className="w-full max-w-[440px] mx-auto h-auto object-contain rounded-2xl"
+            />
+            <div>
+              <h3
+                className="text-3xl font-bold"
+                style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+              >
+                {member.name}
+              </h3>
+              <p className="text-base opacity-70" style={{ fontFamily: 'var(--font-body)' }}>
+                {member.title}
+              </p>
+              {member.bilingualNote && <BilingualBadge note={member.bilingualNote} />}
+              <p className="mt-5 text-lg leading-relaxed opacity-85" style={{ fontFamily: 'var(--font-body)' }}>
+                {member.bio}
+              </p>
+              <MemberContact member={member} />
+            </div>
+          </div>
+        )}
+      </Reveal>
+    </section>
+  );
+}
+
 function TeamGrid({ data }: { data: TeamSection }) {
   const members = data.members ?? [];
   const cols = members.length <= 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
@@ -141,6 +192,7 @@ function TeamGrid({ data }: { data: TeamSection }) {
 }
 
 export default function Team({ data }: { data: TeamSection }) {
+  if (data.variant === 'team-feature') return <TeamFeature data={data} />;
   if (data.variant === 'team-grid') return <TeamGrid data={data} />;
   return <TeamSingle data={data} />;
 }

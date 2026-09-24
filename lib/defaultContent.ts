@@ -18,7 +18,6 @@ export const defaultContent: SiteContent = {
       text: '#1B2A4A',
     },
     fontPairing: 'professional',
-    navCta: 'Check If You’re Owed Money',
     features: {
       stateKnowledgeBase: false,
       crmLite: false,

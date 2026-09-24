@@ -23,6 +23,19 @@ export default defineType({
       description: 'Optional maximum display width in pixels. Leave blank to let width scale naturally.',
       validation: (Rule) => Rule.min(20).max(800).integer(),
     }),
+    defineField({
+      name: 'headerLogo',
+      title: 'Header Logo (optional)',
+      type: 'image',
+      description: 'Logo shown in the sticky nav. Leave blank to use the main Logo.',
+    }),
+    defineField({
+      name: 'headerLogoHeight',
+      title: 'Header Logo Height (px)',
+      type: 'number',
+      description: 'Display height of the nav logo in pixels. Width scales automatically. Default: 36',
+      validation: (Rule) => Rule.min(20).max(120).integer(),
+    }),
     defineField({ name: 'contactEmail', title: 'Contact Email', type: 'string' }),
     defineField({
       name: 'colors',
@@ -52,7 +65,13 @@ export default defineType({
       name: 'navCta',
       title: 'Nav CTA Button Text',
       type: 'string',
-      description: 'Call-to-action button shown in the sticky nav. Defaults to "Check If You’re Owed Money".',
+      description: 'Overrides the nav button text. Leave blank to use the Primary CTA Text, then the built-in default.',
+    }),
+    defineField({
+      name: 'primaryCtaText',
+      title: 'Primary CTA Text',
+      type: 'string',
+      description: 'One CTA wording used everywhere (nav, hero, content blocks). A section’s own CTA text still overrides it.',
     }),
     // Nav link labels live per-section as `navLabel` (single source of truth).
     // Nav anchors are owned by code (lib/navSections.ts) so they can't drift.
@@ -108,6 +127,7 @@ export default defineType({
         { type: 'ctaSection' },
         { type: 'chatWidget' },
         { type: 'teamSection' },
+        { type: 'contentBlock' },
       ],
     }),
   ],

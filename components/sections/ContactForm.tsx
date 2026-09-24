@@ -77,6 +77,12 @@ function renderField(field: FormField, value: string, onChange: (v: string) => v
   return null;
 }
 
+function buildPayload(allFields: FormField[], values: Record<string, string>) {
+  const out: Record<string, string> = {};
+  for (const f of allFields) out[f.label] = values[f.label] ?? '';
+  return out;
+}
+
 function FormCore({
   data,
   fields,
@@ -84,6 +90,7 @@ function FormCore({
   data: ContactForm;
   fields: FormField[];
 }) {
+  const allFields = data.fields;
   const [values, setValues] = useState<Record<string, string>>({});
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -100,7 +107,9 @@ function FormCore({
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fields: values, honeypot }),
+        // Fixed shape: every Studio-defined field, in order, blank as ''.
+        // (Object key order = insertion order; labels are non-numeric strings.)
+        body: JSON.stringify({ fields: buildPayload(allFields, values), honeypot }),
       });
       const json = await res.json();
       if (json.success) {
@@ -227,7 +236,11 @@ function ContactSplit({ data }: { data: ContactForm }) {
 
 function ContactMinimal({ data }: { data: ContactForm }) {
   const minimalFields = data.fields.filter(
-    (f) => f._type === 'textField' || f._type === 'emailField' || f._type === 'phoneField'
+    (f) =>
+      f._type === 'textField' ||
+      f._type === 'emailField' ||
+      f._type === 'phoneField' ||
+      f._type === 'dropdownField'
   );
 
   return (

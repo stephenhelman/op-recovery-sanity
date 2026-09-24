@@ -27,6 +27,9 @@ export interface SiteConfig {
   logo: string | null;
   logoHeight?: number;
   logoWidth?: number;
+  headerLogo?: string | null;
+  headerLogoHeight?: number;
+  primaryCtaText?: string;
   contactEmail: string;
   colors: TemplateColors;
   fontPairing: FontPairing;
@@ -46,6 +49,9 @@ export interface HeroSection {
   ctaNote?: string;
   backgroundImage?: string;
   overlayOpacity?: number;
+  logoChipEnabled?: boolean;
+  logoChipColor?: string;
+  logoChipPadding?: number;
 }
 
 export interface ProblemSection {
@@ -56,6 +62,18 @@ export interface ProblemSection {
   listTitle?: string;
   bullets: { point: string }[];
   summary?: string;
+}
+
+export interface ContentBlock {
+  _type: 'contentBlock';
+  variant?: string;
+  heading: string;
+  body?: string;
+  listTitle?: string;
+  bullets?: { point: string }[];
+  summary?: string;
+  ctaText?: string;
+  navLabel?: string;
 }
 
 export interface ImpactNumbers {
@@ -214,7 +232,7 @@ export interface TeamMember {
 
 export interface TeamSection {
   _type: 'teamSection';
-  variant?: 'team-single' | 'team-grid';
+  variant?: 'team-single' | 'team-grid' | 'team-feature';
   heading: string;
   subheading?: string;
   members: TeamMember[];
@@ -235,7 +253,8 @@ export type Section =
   | StepsSection
   | CtaSection
   | ChatWidget
-  | TeamSection;
+  | TeamSection
+  | ContentBlock;
 
 export interface SiteContent {
   siteConfig: SiteConfig;

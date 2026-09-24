@@ -106,6 +106,7 @@ export default async function Home() {
               companyName={content.siteConfig.companyName}
               logoHeight={content.siteConfig.logoHeight}
               logoWidth={content.siteConfig.logoWidth}
+              primaryCtaText={content.siteConfig.primaryCtaText}
             />
           );
         }
@@ -124,6 +125,7 @@ export default async function Home() {
             section={section as Section}
             altBg={altBg}
             stateKnowledgeBase={isEnabled(content.siteConfig.features, 'stateKnowledgeBase')}
+            primaryCtaText={content.siteConfig.primaryCtaText}
           />
         );
       })}

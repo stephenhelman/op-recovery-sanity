@@ -51,7 +51,8 @@ export default function Header({
   const links = buildNavLinks(sections, {
     stateKnowledgeBase: isEnabled(siteConfig.features, 'stateKnowledgeBase'),
   });
-  const ctaText = siteConfig.navCta || DEFAULT_NAV_CTA;
+  const ctaText = siteConfig.navCta || siteConfig.primaryCtaText || DEFAULT_NAV_CTA;
+  const navLogo = siteConfig.headerLogo || siteConfig.logo;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -97,9 +98,14 @@ export default function Header({
 
   const Logo = (
     <button onClick={() => go('#home')} className="flex items-center" aria-label="Back to top">
-      {siteConfig.logo ? (
+      {navLogo ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={siteConfig.logo} alt={siteConfig.companyName} className="h-9 w-auto object-contain" />
+        <img
+          src={navLogo}
+          alt={siteConfig.companyName}
+          className="w-auto object-contain"
+          style={{ height: `${siteConfig.headerLogoHeight ?? 36}px` }}
+        />
       ) : (
         <span
           className="text-lg font-bold tracking-tight"

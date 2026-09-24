@@ -9,6 +9,7 @@ interface HeroProps {
   companyName?: string;
   logoHeight?: number;
   logoWidth?: number;
+  primaryCtaText?: string;
 }
 
 function scrollToContact() {
@@ -44,24 +45,36 @@ function LogoOrName({
   logoHeight,
   logoWidth,
   nameColor,
+  chip,
 }: {
   logo?: string | null;
   companyName?: string;
   logoHeight?: number;
   logoWidth?: number;
   nameColor: string;
+  chip?: { color: string; padding: number };
 }) {
   if (logo) {
-    return (
+    const img = (
       <img
         src={logo}
         alt={companyName ?? ''}
-        className="w-auto object-contain mb-8"
+        className={chip ? 'w-auto object-contain block' : 'w-auto object-contain mb-8'}
         style={{
           maxHeight: logoHeight ? `${logoHeight}px` : '80px',
           maxWidth: logoWidth ? `${logoWidth}px` : undefined,
         }}
       />
+    );
+    if (!chip) return img;
+    // Backdrop panel so a dark logo stays readable over the photo overlay.
+    return (
+      <div
+        className="mb-8 rounded-xl"
+        style={{ backgroundColor: chip.color, padding: `${chip.padding}px` }}
+      >
+        {img}
+      </div>
     );
   }
   if (companyName) {
@@ -77,8 +90,9 @@ function LogoOrName({
   return null;
 }
 
-function HeroCentered({ data, logo, companyName, logoHeight, logoWidth }: HeroProps) {
+function HeroCentered({ data, logo, companyName, logoHeight, logoWidth, primaryCtaText }: HeroProps) {
   const prefersReduced = useReducedMotion();
+  const ctaText = data.ctaText || primaryCtaText;
   return (
     <section
       id="home"
@@ -99,7 +113,7 @@ function HeroCentered({ data, logo, companyName, logoHeight, logoWidth }: HeroPr
         >
           {data.subheadline}
         </p>
-        {data.ctaText && (
+        {ctaText && (
           <button
             onClick={scrollToContact}
             className="px-8 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
@@ -109,7 +123,7 @@ function HeroCentered({ data, logo, companyName, logoHeight, logoWidth }: HeroPr
               fontFamily: 'var(--font-body)',
             }}
           >
-            {data.ctaText}
+            {ctaText}
           </button>
         )}
         {data.ctaNote && (
@@ -129,8 +143,9 @@ function HeroCentered({ data, logo, companyName, logoHeight, logoWidth }: HeroPr
   );
 }
 
-function HeroSplit({ data, logo, companyName, logoHeight, logoWidth }: HeroProps) {
+function HeroSplit({ data, logo, companyName, logoHeight, logoWidth, primaryCtaText }: HeroProps) {
   const prefersReduced = useReducedMotion();
+  const ctaText = data.ctaText || primaryCtaText;
   return (
     <section
       id="home"
@@ -152,7 +167,7 @@ function HeroSplit({ data, logo, companyName, logoHeight, logoWidth }: HeroProps
         >
           {data.subheadline}
         </p>
-        {data.ctaText && (
+        {ctaText && (
           <div>
             <button
               onClick={scrollToContact}
@@ -163,7 +178,7 @@ function HeroSplit({ data, logo, companyName, logoHeight, logoWidth }: HeroProps
                 fontFamily: 'var(--font-body)',
               }}
             >
-              {data.ctaText}
+              {ctaText}
             </button>
           </div>
         )}
@@ -196,8 +211,14 @@ function HeroSplit({ data, logo, companyName, logoHeight, logoWidth }: HeroProps
   );
 }
 
-function HeroPhoto({ data, logo, companyName, logoHeight, logoWidth }: HeroProps) {
+function HeroPhoto({ data, logo, companyName, logoHeight, logoWidth, primaryCtaText }: HeroProps) {
   const prefersReduced = useReducedMotion();
+  const ctaText = data.ctaText || primaryCtaText;
+  // Chip defaults ON for the photo variant; color/padding are set fields.
+  const chip =
+    data.logoChipEnabled === false
+      ? undefined
+      : { color: data.logoChipColor || '#ffffff', padding: data.logoChipPadding ?? 16 };
   // White-on-image: text sits on a photo, so it uses an explicit white — NOT
   // var(--color-bg), which is the site background (may be light and vanish).
   const overlay = typeof data.overlayOpacity === 'number' ? data.overlayOpacity : 60;
@@ -226,7 +247,7 @@ function HeroPhoto({ data, logo, companyName, logoHeight, logoWidth }: HeroProps
         transition={{ duration: 0.7, ease: 'easeOut' }}
         className="relative z-10 max-w-3xl mx-auto flex flex-col items-center"
       >
-        <LogoOrName logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} nameColor="#ffffff" />
+        <LogoOrName logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} nameColor="#ffffff" chip={chip} />
         <Headline data={data} color="#ffffff" className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6" />
         <p
           className="text-lg sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
@@ -234,7 +255,7 @@ function HeroPhoto({ data, logo, companyName, logoHeight, logoWidth }: HeroProps
         >
           {data.subheadline}
         </p>
-        {data.ctaText && (
+        {ctaText && (
           <button
             onClick={scrollToContact}
             className="px-8 py-4 text-lg font-bold rounded-md transition-opacity hover:opacity-90 active:scale-95"
@@ -244,7 +265,7 @@ function HeroPhoto({ data, logo, companyName, logoHeight, logoWidth }: HeroProps
               fontFamily: 'var(--font-body)',
             }}
           >
-            {data.ctaText}
+            {ctaText}
           </button>
         )}
         {data.ctaNote && (
@@ -260,12 +281,12 @@ function HeroPhoto({ data, logo, companyName, logoHeight, logoWidth }: HeroProps
   );
 }
 
-export default function Hero({ data, logo, companyName, logoHeight, logoWidth }: HeroProps) {
+export default function Hero({ data, logo, companyName, logoHeight, logoWidth, primaryCtaText }: HeroProps) {
   if (data.variant === 'hero-photo') {
-    return <HeroPhoto data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} />;
+    return <HeroPhoto data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} primaryCtaText={primaryCtaText} />;
   }
   if (data.variant === 'hero-split') {
-    return <HeroSplit data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} />;
+    return <HeroSplit data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} primaryCtaText={primaryCtaText} />;
   }
-  return <HeroCentered data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} />;
+  return <HeroCentered data={data} logo={logo} companyName={companyName} logoHeight={logoHeight} logoWidth={logoWidth} primaryCtaText={primaryCtaText} />;
 }

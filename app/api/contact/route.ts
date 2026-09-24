@@ -14,7 +14,15 @@ export async function POST(req: NextRequest) {
     }
 
     const siteData = await loadSiteData();
-    const fieldArray = Object.entries(fields).map(([label, value]) => ({ label, value }));
+    // The form already sends every defined field in order (blanks as ''); append
+    // Source last so leads are distinguishable from chat ('Website Chat'). Any
+    // field a Studio author labeled 'Source' is superseded to keep it unambiguous.
+    const fieldArray = [
+      ...Object.entries(fields)
+        .filter(([label]) => label !== 'Source')
+        .map(([label, value]) => ({ label, value })),
+      { label: 'Source', value: 'Website Form' },
+    ];
 
     const summary = await dispatchLead({
       fields: fieldArray,

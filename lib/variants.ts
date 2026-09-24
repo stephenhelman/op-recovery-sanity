@@ -47,6 +47,7 @@ export const sectionVariants: Record<string, { value: string; label: string }[]>
   ],
   teamSection: [
     { value: 'team-single', label: 'Single' },
+    { value: 'team-feature', label: 'Feature' },
     { value: 'team-grid', label: 'Grid' },
   ],
 };

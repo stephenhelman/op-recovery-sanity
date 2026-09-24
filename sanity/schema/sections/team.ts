@@ -12,6 +12,7 @@ export default defineType({
       options: {
         list: [
           { title: 'Single (one person, headshot + bio)', value: 'team-single' },
+          { title: 'Feature (large side-by-side photo + copy)', value: 'team-feature' },
           { title: 'Grid (2–3 column cards)', value: 'team-grid' },
         ],
         layout: 'radio',
@@ -60,7 +61,7 @@ export default defineType({
     prepare({ heading, variant }: { heading?: string; variant?: string }) {
       return {
         title: heading || 'Team Section',
-        subtitle: variant === 'team-grid' ? 'Grid' : 'Single',
+        subtitle: variant === 'team-grid' ? 'Grid' : variant === 'team-feature' ? 'Feature' : 'Single',
       };
     },
   },
