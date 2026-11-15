@@ -8,6 +8,7 @@ import {
   DM_Serif_Display,
   Nunito,
 } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const blackOpsOne = Black_Ops_One({ subsets: ['latin'], weight: '400', variable: '--google-black-ops-one' });
@@ -33,7 +34,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body className={`${fontClasses} antialiased`}>{children}</body>
+      <body className={`${fontClasses} antialiased`}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
